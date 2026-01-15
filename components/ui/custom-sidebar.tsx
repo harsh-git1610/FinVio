@@ -48,7 +48,7 @@ export const SidebarProvider = ({
     <SidebarContext.Provider value={{ open, setOpen, animate: animate }}>
       {children}
     </SidebarContext.Provider>
-  );
+  ); 
 };
 
 export const Sidebar = ({
