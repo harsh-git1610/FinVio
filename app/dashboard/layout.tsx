@@ -1,6 +1,7 @@
 import SidebarDemo from "@/components/sidebar-demo";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import { prisma } from "../utils/db";
 
 
 export default async function DashboardLayout({
@@ -12,6 +13,16 @@ export default async function DashboardLayout({
 
     if (!userId) {
         redirect("/login");
+    }
+
+    const dbUser = await prisma.user.findUnique({
+        where: {
+            clerkId: userId,
+        },
+    });
+
+    if (!dbUser?.onboardingCompleted) {
+        redirect("/onboarding");
     }
 
     return (

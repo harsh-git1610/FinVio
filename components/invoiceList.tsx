@@ -1,7 +1,15 @@
 import InvoiceActions from "./invoiceActions";
 import { Table, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import { Invoice } from "@/lib/generated/prisma";
 
-export default function InvoiceList() {
+export default function InvoiceList({ invoices = [] }: { invoices: Invoice[] }) {
+    if(invoices.length === 0) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <p className="text-muted-foreground">Create your first invoice</p>
+            </div>
+        )
+    }
     return (
         <Table>
             <TableHeader>
@@ -14,16 +22,18 @@ export default function InvoiceList() {
                     <TableHead className="text-right">Actions</TableHead>
 
                 </TableRow>
-                <TableRow>
-                    <TableCell>INV-00001</TableCell>
-                    <TableCell>John Doe</TableCell>
-                    <TableCell>$100</TableCell>
-                    <TableCell>Paid</TableCell>
-                    <TableCell>2025-12-01</TableCell>
-                    <TableCell className="text-right">
-                        <InvoiceActions invoiceId="INV-00001" />
-                    </TableCell>
-                </TableRow>
+                {invoices.map((invoice: Invoice) => (
+                    <TableRow key={invoice.id}>
+                        <TableCell>{invoice.invoiceNumber}</TableCell>
+                        <TableCell>{invoice.toName}</TableCell>
+                        <TableCell>{invoice.total}</TableCell>
+                        <TableCell>{invoice.status}</TableCell>
+                        <TableCell>{invoice.date.toISOString()}</TableCell>
+                        <TableCell className="text-right">
+                            <InvoiceActions invoiceId={invoice.id} />
+                        </TableCell>
+                    </TableRow>
+                ))}
             </TableHeader>
         </Table>
     );

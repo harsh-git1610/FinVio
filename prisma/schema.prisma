@@ -26,6 +26,8 @@ model User {
 
   invoices      Invoice[]
   assets        Asset[]
+  
+  onboardingCompleted Boolean @default(false)
 
   @@index([clerkId])
 }
@@ -50,6 +52,7 @@ model Invoice {
   toName        String
   toEmail       String
   toAddress     String
+  total         Float @default(0)
 
   items         Json
   taxRate       Float

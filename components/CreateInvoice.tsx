@@ -27,15 +27,29 @@ import {
 import { FileUpload } from "./ui/file-upload";
 import { AssetPicker } from "./AssetPicker";
 
-export default function CreateInvoice() {
+interface CreateInvoiceProps {
+    firstName?: string;
+    lastName?: string;
+    address?: string;
+    email?: string;
+    businessName?: string;
+}
+
+export default function CreateInvoice({
+    firstName,
+    lastName,
+    address,
+    email,
+    businessName
+}: CreateInvoiceProps) {
     const [invoiceNumber, setInvoiceNumber] = useState("INV-001");
     const [date, setDate] = useState<Date | undefined>(new Date());
     const [dueDate, setDueDate] = useState<Date | undefined>();
     const [currency, setCurrency] = useState("USD");
 
-    const [fromName, setFromName] = useState("");
-    const [fromEmail, setFromEmail] = useState("");
-    const [fromAddress, setFromAddress] = useState("");
+    const [fromName, setFromName] = useState(businessName || `${firstName || ''} ${lastName || ''}`.trim());
+    const [fromEmail, setFromEmail] = useState(email || "");
+    const [fromAddress, setFromAddress] = useState(address || "");
 
     const [toName, setToName] = useState("");
     const [toEmail, setToEmail] = useState("");
@@ -330,7 +344,7 @@ export default function CreateInvoice() {
                                                                     </TableCell>
                                                                     <TableCell>
                                                                         <div className="flex items-center">
-                                                                            <span className="text-muted-foreground mr-1">{currency === "USD" ? "$" : currency === "EUR" ? "€" : "£"}</span>
+                                                                            <span className="text-muted-foreground mr-1">{currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : "£"}</span>
                                                                             <Input
                                                                                 type="number"
                                                                                 value={item.price}
@@ -340,7 +354,7 @@ export default function CreateInvoice() {
                                                                         </div>
                                                                     </TableCell>
                                                                     <TableCell className="text-right font-medium">
-                                                                        {currency === "USD" ? "$" : currency === "EUR" ? "€" : "£"}{(item.quantity * item.price).toFixed(2)}
+                                                                        {currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : "£"}{(item.quantity * item.price).toFixed(2)}
                                                                     </TableCell>
                                                                     <TableCell>
                                                                         <Button
@@ -468,20 +482,20 @@ export default function CreateInvoice() {
                                 <div className="space-y-3">
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">Subtotal</span>
-                                        <span>{currency === "USD" ? "$" : currency === "EUR" ? "€" : "£"}{subtotal.toFixed(2)}</span>
+                                        <span>{currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : ""}{subtotal.toFixed(2)}</span>
                                     </div>
                                     <div className="flex justify-between items-center text-sm">
                                         <span className="text-muted-foreground">Discount ({discount}%)</span>
-                                        <span>-{currency === "USD" ? "$" : currency === "EUR" ? "€" : "£"}{discountAmount.toFixed(2)}</span>
+                                        <span>-{currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : ""}{discountAmount.toFixed(2)}</span>
                                     </div>
                                     <div className="flex justify-between items-center text-sm">
                                         <span className="text-muted-foreground">{taxName} ({taxRate}%)</span>
-                                        <span>{currency === "USD" ? "$" : currency === "EUR" ? "€" : "£"}{tax.toFixed(2)}</span>
+                                        <span>{currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : ""}{tax.toFixed(2)}</span>
                                     </div>
                                     <div className="h-px bg-border" />
                                     <div className="flex justify-between font-bold text-lg">
                                         <span>Total</span>
-                                        <span>{currency === "USD" ? "$" : currency === "EUR" ? "€" : "£"}{total.toFixed(2)}</span>
+                                        <span>{currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : ""}{total.toFixed(2)}</span>
                                     </div>
                                 </div>
 
@@ -504,12 +518,19 @@ export default function CreateInvoice() {
                                             >
                                                 EUR (€)
                                             </Badge>
-                                            <Badge
+                                            {/* <Badge
                                                 variant={currency === "GBP" ? "secondary" : "outline"}
                                                 className="cursor-pointer hover:bg-muted"
                                                 onClick={() => setCurrency("GBP")}
                                             >
                                                 GBP (£)
+                                            </Badge> */}
+                                            <Badge
+                                                variant={currency === "INR" ? "secondary" : "outline"}
+                                                className="cursor-pointer hover:bg-muted"
+                                                onClick={() => setCurrency("INR")}
+                                            >
+                                                INR (₹)
                                             </Badge>
                                         </div>
                                     </div>

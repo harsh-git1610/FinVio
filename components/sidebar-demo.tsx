@@ -8,8 +8,8 @@ import {
     IconSettings,
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { ReceiptText, LogOut, User, Settings, ChevronDown, Lock, LockOpen, ChevronUp } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { ReceiptText, LogOut, User, Settings, ChevronDown, Lock, LockOpen, ChevronUp, LogOutIcon } from "lucide-react";
+import { SignOutButton } from "@/components/ui/signout-button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const links = [
@@ -166,11 +166,12 @@ export default function SidebarDemo() {
                             <DropdownMenuSeparator />
                             <DropdownMenuItem
                                 className="p-0 text-red-600 dark:text-red-400 focus:bg-red-50 dark:focus:bg-red-900/20"
-                                onClick={() => signOut({ callbackUrl: '/' })}
+                                onClick={() => SignOutButton}
+
                             >
                                 <div className="w-full flex items-center p-2 cursor-pointer">
-                                    <LogOut className="mr-2 h-4 w-4" />
-                                    <span>Log out</span>
+                                   <LogOutIcon className="mr-2 h-4 w-4" /> <SignOutButton /> 
+                                    
                                 </div>
                             </DropdownMenuItem>
                         </DropdownMenuContent>

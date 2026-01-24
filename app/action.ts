@@ -22,21 +22,23 @@ export async function OnboardingUser(prevState: any, formData: FormData) {
 
     await prisma.user.upsert({
         where: {
-            id: user.id,
+            clerkId: user.id,
         },
         update: {
             firstName: submission.value.firstName,
             lastName: submission.value.lastName,
             address: submission.value.address,
             businessName: submission.value.businessName,
+            onboardingCompleted: true,
         },
         create: {
-            id: user.id,
+            clerkId: user.id,
             email: user.emailAddresses[0].emailAddress,
             firstName: submission.value.firstName,
             lastName: submission.value.lastName,
             address: submission.value.address,
             businessName: submission.value.businessName,
+            onboardingCompleted: true,
         }
     })
     return redirect("/dashboard")
