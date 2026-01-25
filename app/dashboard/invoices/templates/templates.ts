@@ -192,7 +192,7 @@ export function invoiceHtmlTemplate(invoice: Invoice) {
           </div>
           <div class="meta-item">
             <label>Status</label>
-            <p>Due</p>
+            <p>${invoice.status}</p>
           </div>
         </div>
 

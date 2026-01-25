@@ -87,7 +87,14 @@ export default function AssetsPage() {
                         </CardHeader>
                         <CardContent>
                             <div className="w-full max-w-xl mx-auto border border-dashed rounded-lg p-4 bg-muted/30">
-                                <FileUpload onChange={(files) => handleUpload(files, "LOGO")} />
+                                <FileUpload
+                                    onChange={(files) => handleUpload(files, "LOGO")}
+                                    accept={{
+                                        "image/png": [],
+                                        "image/jpeg": [],
+                                        "image/jpg": [],
+                                    }}
+                                />
                             </div>
                         </CardContent>
                     </Card>
@@ -107,7 +114,14 @@ export default function AssetsPage() {
                         </CardHeader>
                         <CardContent>
                             <div className="w-full max-w-xl mx-auto border border-dashed rounded-lg p-4 bg-muted/30">
-                                <FileUpload onChange={(files) => handleUpload(files, "SIGNATURE")} />
+                                <FileUpload
+                                    onChange={(files) => handleUpload(files, "SIGNATURE")}
+                                    accept={{
+                                        "image/png": [],
+                                        "image/jpeg": [],
+                                        "image/jpg": [],
+                                    }}
+                                />
                             </div>
                         </CardContent>
                     </Card>
@@ -124,17 +138,23 @@ export default function AssetsPage() {
 }
 
 function AssetCard({ asset, onDelete }: { asset: Asset, onDelete: (id: string) => void }) {
+    console.log({
+        name: asset.name,
+        mime: asset.mimeType,
+        preview: asset.base64.slice(0, 50),
+    })
     return (
         <Card className="overflow-hidden group relative">
             <CardContent className="p-4 flex flex-col items-center gap-4">
                 <div className="relative w-full h-32 flex items-center justify-center bg-gray-50 dark:bg-neutral-900 rounded-md overflow-hidden">
                     {asset.mimeType.startsWith("image/") ? (
-                        // eslint-disable-next-line @next/next/no-img-element
                         <img
-                            src={asset.base64}
+                            src={`data:${asset.mimeType};base64,${asset.base64}`}
                             alt={asset.name}
                             className="object-contain max-h-full max-w-full"
                         />
+
+
                     ) : (
                         <FileIcon className="w-12 h-12 text-muted-foreground" />
                     )}
@@ -153,6 +173,9 @@ function AssetCard({ asset, onDelete }: { asset: Asset, onDelete: (id: string) =
                     </Button>
                 </div>
             </CardContent>
+
+
         </Card>
+
     );
 }

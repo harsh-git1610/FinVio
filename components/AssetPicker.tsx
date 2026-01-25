@@ -108,12 +108,12 @@ export function AssetPicker({ type, value, onChange, label }: AssetPickerProps) 
                                         key={asset.id}
                                         className="border rounded-md p-2 cursor-pointer hover:border-primary transition relative group"
                                         onClick={() => {
-                                            onChange(asset.base64);
+                                            onChange(`data:${asset.mimeType};base64,${asset.base64}`);
                                             setOpen(false);
                                         }}
                                     >
-                                         // eslint-disable-next-line @next/next/no-img-element
-                                        <img src={asset.base64} alt={asset.name} className="w-full h-20 object-contain" />
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={`data:${asset.mimeType};base64,${asset.base64}`} alt={asset.name} className="w-full h-20 object-contain" />
                                         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-medium rounded-md">
                                             Select
                                         </div>

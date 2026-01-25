@@ -36,6 +36,7 @@ enum InvoiceStatus {
   PENDING
   PAID
   VOID
+  DRAFT
 }
 
 model Invoice {

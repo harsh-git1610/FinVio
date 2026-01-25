@@ -24,6 +24,19 @@ export async function uploadAsset(formData: FormData) {
     const type = formData.get("type") as "LOGO" | "SIGNATURE" | null
 
     if (!file) return { error: "No file provided" }
+
+    // 1. File Size Validation (10MB)
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+    if (file.size > MAX_FILE_SIZE) {
+        return { error: "File size exceeds 10MB limit." }
+    }
+
+    // 2. File Type Validation
+    const ALLOWED_TYPES = ["image/png", "image/jpeg", "image/jpg"];
+    if (!ALLOWED_TYPES.includes(file.type)) {
+        return { error: "Invalid file type. Only PNG and JPG are allowed." }
+    }
+
     if (!type || !["LOGO", "SIGNATURE"].includes(type)) {
         return { error: "Invalid asset type" }
     }

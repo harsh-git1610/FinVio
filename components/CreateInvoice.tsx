@@ -11,13 +11,14 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import { CalendarIcon, Plus, Trash2, Send, Save } from "lucide-react";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useForm, getFormProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-import { createInvoiceSchema, type InvoiceItem } from "@/app/utils/zodSchema";
+import { createInvoiceSchema, draftInvoiceSchema, type InvoiceItem } from "@/app/utils/zodSchema";
 import { useActionState } from "react";
-import { createInvoice } from "@/app/actions";
+import { createInvoice, editInvoice } from "@/app/actions";
 import {
     Accordion,
     AccordionContent,
@@ -33,6 +34,7 @@ interface CreateInvoiceProps {
     address?: string;
     email?: string;
     businessName?: string;
+    invoice?: any;
 }
 
 export default function CreateInvoice({
@@ -40,43 +42,58 @@ export default function CreateInvoice({
     lastName,
     address,
     email,
-    businessName
+    businessName,
+    invoice
 }: CreateInvoiceProps) {
-    const [invoiceNumber, setInvoiceNumber] = useState("INV-001");
-    const [date, setDate] = useState<Date | undefined>(new Date());
-    const [dueDate, setDueDate] = useState<Date | undefined>();
-    const [currency, setCurrency] = useState("USD");
+    const [invoiceNumber, setInvoiceNumber] = useState(invoice?.invoiceNumber ?? "INV-001");
+    const [date, setDate] = useState<Date | undefined>(invoice?.date ? new Date(invoice.date) : new Date());
+    const [dueDate, setDueDate] = useState<Date | undefined>(invoice?.dueDate ? new Date(invoice.dueDate) : undefined);
+    const [currency, setCurrency] = useState(invoice?.currency ?? "USD");
 
-    const [fromName, setFromName] = useState(businessName || `${firstName || ''} ${lastName || ''}`.trim());
-    const [fromEmail, setFromEmail] = useState(email || "");
-    const [fromAddress, setFromAddress] = useState(address || "");
+    const [fromName, setFromName] = useState(invoice?.fromName ?? (businessName || `${firstName || ''} ${lastName || ''}`.trim()));
+    const [fromEmail, setFromEmail] = useState(invoice?.fromEmail ?? (email || ""));
+    const [fromAddress, setFromAddress] = useState(invoice?.fromAddress ?? (address || ""));
 
-    const [toName, setToName] = useState("");
-    const [toEmail, setToEmail] = useState("");
-    const [toAddress, setToAddress] = useState("");
+    const [toName, setToName] = useState(invoice?.toName ?? "");
+    const [toEmail, setToEmail] = useState(invoice?.toEmail ?? "");
+    const [toAddress, setToAddress] = useState(invoice?.toAddress ?? "");
 
-    const [companyLogo, setCompanyLogo] = useState<string>("");
-    const [signature, setSignature] = useState<string>("");
+    const [companyLogo, setCompanyLogo] = useState<string>(invoice?.companyLogo ?? "");
+    const [signature, setSignature] = useState<string>(invoice?.signature ?? "");
 
-    const [items, setItems] = useState<InvoiceItem[]>([
+    const [items, setItems] = useState<InvoiceItem[]>(invoice?.items ? (invoice.items as InvoiceItem[]) : [
         { id: "1", description: "Web Design Services", quantity: 1, price: 1500 },
     ]);
 
-    const [notes, setNotes] = useState("");
-    const [taxRate, setTaxRate] = useState(10); // Default 10%
-    const [taxName, setTaxName] = useState("Tax");
-    const [discount, setDiscount] = useState(0);
+    const [notes, setNotes] = useState(invoice?.notes ?? "");
+    const [taxRate, setTaxRate] = useState(invoice?.taxRate ?? 10);
+    const [taxName, setTaxName] = useState(invoice?.taxName ?? "Tax");
+    const [discount, setDiscount] = useState(invoice?.discount ?? 0);
 
     // Form validation with Conform
-    const [lastResult, action] = useActionState(createInvoice, undefined);
+    const [lastResult, action] = useActionState(invoice ? editInvoice.bind(null, invoice.id) : createInvoice, undefined);
     const [form, fields] = useForm({
         lastResult,
         onValidate({ formData }) {
-            return parseWithZod(formData, { schema: createInvoiceSchema });
+            return parseWithZod(formData, { schema: draftInvoiceSchema });
         },
         shouldValidate: "onBlur",
         shouldRevalidate: "onInput",
     });
+
+    useEffect(() => {
+        if (!lastResult) return;
+
+        if (lastResult.status === "success") {
+            toast.success("Invoice Saved", {
+                description: "Your invoice has been successfully saved."
+            });
+        } else if (lastResult.status === "error") {
+            toast.error("Error Saving Invoice", {
+                description: "Please check the form for errors and try again."
+            });
+        }
+    }, [lastResult]);
 
     const addItem = () => {
         setItems([
@@ -106,25 +123,41 @@ export default function CreateInvoice({
     return (
         <form {...getFormProps(form)} action={action}>
             <input type="hidden" name="items" value={JSON.stringify(items)} />
-            <input type="hidden" name="date" value={date?.toISOString()} />
-            <input type="hidden" name="date" value={date?.toISOString()} />
-            <input type="hidden" name="dueDate" value={dueDate?.toISOString()} />
+            <input type="hidden" name="date" value={date?.toISOString() ?? ""} />
+
+            <input type="hidden" name="dueDate" value={dueDate?.toISOString() ?? ""} />
             <input type="hidden" name="companyLogo" value={companyLogo} />
             <input type="hidden" name="signature" value={signature} />
+
+            <input type="hidden" name="invoiceNumber" value={invoiceNumber} />
+            <input type="hidden" name="fromName" value={fromName} />
+            <input type="hidden" name="fromEmail" value={fromEmail} />
+            <input type="hidden" name="fromAddress" value={fromAddress} />
+            <input type="hidden" name="toName" value={toName} />
+            <input type="hidden" name="toEmail" value={toEmail} />
+            <input type="hidden" name="toAddress" value={toAddress} />
+            <input type="hidden" name="taxName" value={taxName} />
+            <input type="hidden" name="taxRate" value={taxRate} />
+            <input type="hidden" name="discount" value={discount} />
+            <input type="hidden" name="notes" value={notes} />
             <div className="max-w-5xl mx-auto py-10 px-4">
                 <div className="flex justify-between items-center mb-8">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight">Create Invoice</h1>
-                        <p className="text-muted-foreground mt-1">Draft a new invoice for your client.</p>
+                        <h1 className="text-3xl font-bold tracking-tight">
+                            {invoice ? "Edit Invoice" : "Create Invoice"}
+                        </h1>
+                        <p className="text-muted-foreground mt-1">
+                            {invoice ? "Update your existing invoice." : "Draft a new invoice for your client."}
+                        </p>
                     </div>
                     <div className="flex gap-3">
-                        <Button type="button" variant="outline">
+                        <Button type="submit" name="action" value="save-draft" variant="outline">
                             <Save className="w-4 h-4 mr-2" />
                             Save Draft
                         </Button>
-                        <Button type="submit">
+                        <Button type="submit" name="action" value="create-invoice">
                             <Send className="w-4 h-4 mr-2" />
-                            Create Invoice
+                            {invoice ? "Update Invoice" : "Create Invoice"}
                         </Button>
                     </div>
                 </div>
@@ -145,14 +178,18 @@ export default function CreateInvoice({
                                             <div className="flex flex-col gap-6">
                                                 <div className="space-y-2">
                                                     <Label className="text-muted-foreground uppercase text-xs tracking-wider">Invoice No.</Label>
-                                                    <div className="flex items-center">
-                                                        <span className="text-muted-foreground font-mono text-lg mr-1">#</span>
-                                                        <Input
-                                                            name="invoiceNumber"
-                                                            value={invoiceNumber}
-                                                            onChange={(e) => setInvoiceNumber(e.target.value)}
-                                                            className="font-mono text-lg font-medium border-none shadow-none p-0 h-auto focus-visible:ring-0 w-32 bg-transparent"
-                                                        />
+                                                    <div className="flex flex-col">
+                                                        <div className="flex items-center">
+                                                            <span className="text-muted-foreground font-mono text-lg mr-1">#</span>
+                                                            <Input
+                                                                name={fields.invoiceNumber.name}
+                                                                key={fields.invoiceNumber.key}
+                                                                value={invoiceNumber}
+                                                                onChange={(e) => setInvoiceNumber(e.target.value)}
+                                                                className="font-mono text-lg font-medium border-none shadow-none p-0 h-auto focus-visible:ring-0 w-32 bg-transparent"
+                                                            />
+                                                        </div>
+                                                        <p className="text-red-500 text-sm mt-1">{fields.invoiceNumber.errors}</p>
                                                     </div>
                                                 </div>
                                                 <div className="flex flex-col sm:flex-row gap-6">
@@ -181,6 +218,7 @@ export default function CreateInvoice({
                                                                 />
                                                             </PopoverContent>
                                                         </Popover>
+                                                        <p className="text-red-500 text-sm">{fields.date.errors}</p>
                                                     </div>
                                                     <div className="space-y-2 flex-1">
                                                         <Label className="text-muted-foreground uppercase text-xs tracking-wider">Due Date</Label>
@@ -221,27 +259,39 @@ export default function CreateInvoice({
                                         <AccordionContent className="pb-6 pt-2">
                                             <div className="space-y-4">
                                                 <div className="space-y-3">
-                                                    <Input
-                                                        name="fromName"
-                                                        placeholder="Your Name / Business"
-                                                        value={fromName}
-                                                        onChange={(e) => setFromName(e.target.value)}
-                                                    />
-                                                    <Input
-                                                        name="fromEmail"
-                                                        placeholder="Email Address"
-                                                        type="email"
-                                                        value={fromEmail}
-                                                        onChange={(e) => setFromEmail(e.target.value)}
-                                                    />
-                                                    <Textarea
-                                                        name="fromAddress"
-                                                        placeholder="Address"
-                                                        className="resize-none"
-                                                        rows={3}
-                                                        value={fromAddress}
-                                                        onChange={(e) => setFromAddress(e.target.value)}
-                                                    />
+                                                    <div>
+                                                        <Input
+                                                            name={fields.fromName.name}
+                                                            key={fields.fromName.key}
+                                                            placeholder="Your Name / Business"
+                                                            value={fromName}
+                                                            onChange={(e) => setFromName(e.target.value)}
+                                                        />
+                                                        <p className="text-red-500 text-sm">{fields.fromName.errors}</p>
+                                                    </div>
+                                                    <div>
+                                                        <Input
+                                                            name={fields.fromEmail.name}
+                                                            key={fields.fromEmail.key}
+                                                            placeholder="Email Address"
+                                                            type="email"
+                                                            value={fromEmail}
+                                                            onChange={(e) => setFromEmail(e.target.value)}
+                                                        />
+                                                        <p className="text-red-500 text-sm">{fields.fromEmail.errors}</p>
+                                                    </div>
+                                                    <div>
+                                                        <Textarea
+                                                            name={fields.fromAddress.name}
+                                                            key={fields.fromAddress.key}
+                                                            placeholder="Address"
+                                                            className="resize-none"
+                                                            rows={3}
+                                                            value={fromAddress}
+                                                            onChange={(e) => setFromAddress(e.target.value)}
+                                                        />
+                                                        <p className="text-red-500 text-sm">{fields.fromAddress.errors}</p>
+                                                    </div>
                                                 </div>
 
                                                 <div className="space-y-3 pt-2">
@@ -279,27 +329,39 @@ export default function CreateInvoice({
                                         <AccordionContent className="pb-6 pt-2">
                                             <div className="space-y-4">
                                                 <div className="space-y-3">
-                                                    <Input
-                                                        name="toName"
-                                                        placeholder="Client Name"
-                                                        value={toName}
-                                                        onChange={(e) => setToName(e.target.value)}
-                                                    />
-                                                    <Input
-                                                        name="toEmail"
-                                                        placeholder="Client Email"
-                                                        type="email"
-                                                        value={toEmail}
-                                                        onChange={(e) => setToEmail(e.target.value)}
-                                                    />
-                                                    <Textarea
-                                                        name="toAddress"
-                                                        placeholder="Client Address"
-                                                        className="resize-none"
-                                                        rows={3}
-                                                        value={toAddress}
-                                                        onChange={(e) => setToAddress(e.target.value)}
-                                                    />
+                                                    <div>
+                                                        <Input
+                                                            name={fields.toName.name}
+                                                            key={fields.toName.key}
+                                                            placeholder="Client Name"
+                                                            value={toName}
+                                                            onChange={(e) => setToName(e.target.value)}
+                                                        />
+                                                        <p className="text-red-500 text-sm">{fields.toName.errors}</p>
+                                                    </div>
+                                                    <div>
+                                                        <Input
+                                                            name={fields.toEmail.name}
+                                                            key={fields.toEmail.key}
+                                                            placeholder="Client Email"
+                                                            type="email"
+                                                            value={toEmail}
+                                                            onChange={(e) => setToEmail(e.target.value)}
+                                                        />
+                                                        <p className="text-red-500 text-sm">{fields.toEmail.errors}</p>
+                                                    </div>
+                                                    <div>
+                                                        <Textarea
+                                                            name={fields.toAddress.name}
+                                                            key={fields.toAddress.key}
+                                                            placeholder="Client Address"
+                                                            className="resize-none"
+                                                            rows={3}
+                                                            value={toAddress}
+                                                            onChange={(e) => setToAddress(e.target.value)}
+                                                        />
+                                                        <p className="text-red-500 text-sm">{fields.toAddress.errors}</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </AccordionContent>
