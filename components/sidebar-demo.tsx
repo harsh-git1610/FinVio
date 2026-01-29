@@ -8,7 +8,7 @@ import {
     IconSettings,
 } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { ReceiptText, LogOut, User, Settings, ChevronDown, Lock, LockOpen, ChevronUp, LogOutIcon } from "lucide-react";
+import { ReceiptText, LogOut, User, Settings, ChevronDown, Lock, LockOpen, ChevronUp, LogOutIcon, LayoutDashboard, Users, Image, BarChart3, Sparkles } from "lucide-react";
 import { SignOutButton } from "@/components/ui/signout-button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
@@ -17,18 +17,51 @@ const links = [
         label: "Dashboard",
         href: "/dashboard",
         icon: (
-            <IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+            <LayoutDashboard className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
         ),
     },
     {
-        label: "Inovice",
+        label: "Invoices",
         href: "/dashboard/invoices",
         icon: (
-            <ReceiptText />
+            <ReceiptText className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
         ),
     },
-
-
+    {
+        label: "Clients",
+        href: "/dashboard/clients",
+        icon: (
+            <Users className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        ),
+    },
+    {
+        label: "Assets",
+        href: "/dashboard/assets",
+        icon: (
+            <Image className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        ),
+    },
+    {
+        label: "Analytics",
+        href: "/dashboard/analytics",
+        icon: (
+            <BarChart3 className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        ),
+    },
+    {
+        label: "AI Assistant",
+        href: "/dashboard/ai-assistant",
+        icon: (
+            <Sparkles className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        ),
+    },
+    {
+        label: "Settings",
+        href: "/dashboard/settings",
+        icon: (
+            <Settings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        ),
+    },
 ];
 
 // --- MAIN COMPONENT ---
@@ -93,8 +126,8 @@ export default function SidebarDemo() {
                             <button
                                 onClick={handleLockClick}
                                 className={`p-1.5 rounded-lg transition-all duration-200 ${isLocked
-                                        ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
-                                        : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:text-neutral-500 dark:hover:bg-neutral-800'
+                                    ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400'
+                                    : 'text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:text-neutral-500 dark:hover:bg-neutral-800'
                                     }`}
                                 title={isLocked ? 'Unlock sidebar' : 'Lock sidebar open'}
                             >
@@ -108,74 +141,11 @@ export default function SidebarDemo() {
                         ))}
                     </nav>
                 </div>
-                <div className="mt-auto pt-4 border-t border-gray-200 dark:border-gray-800">
-                    <DropdownMenu onOpenChange={(dropdownOpen) => {
-                        setIsDropdownOpen(dropdownOpen);
-                        if (dropdownOpen) {
-                            setOpen(true);
-                        } else {
-                            handleSidebarLeave();
-                        }
-                    }}>
-                        <DropdownMenuTrigger asChild>
-                            <button className="w-full text-left">
-                                <div className="flex items-center gap-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                                    <User />
-                                    {open && (
-                                        <div className="flex items-center justify-between flex-1 min-w-0">
-                                            <div className="truncate">
-                                                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Harsh Chauhan</p>
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">View profile</p>
-                                            </div>
-                                            <ChevronUp className="h-4 w-4 text-gray-500" />
-                                        </div>
-                                    )}
-                                </div>
-                            </button>
-                        </DropdownMenuTrigger>
-
-                        {/* 👇 THIS IS THE FIX 👇 */}
-                        <DropdownMenuContent
-                            className={cn(
-                                // "w-56 transition-all duration-200 ease-in-out",
-                                // "data-[side=right]:animate-in data-[side=right]:fade-in-0 data-[side=right]:zoom-in-95",
-                                // "data-[side=top]:animate-in data-[side=top]:fade-in-0 data-[side=top]:zoom-in-95"
-                            )}
-                            align="start"
-                            side={"top"}
-                            sideOffset={5}
-                            alignOffset={0}
-                            // ADD THESE TWO PROPS
-                            onMouseEnter={handleSidebarEnter}
-                            onMouseLeave={handleSidebarLeave}
-                        >
-                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                                <a href="/profile" className="w-full flex items-center ">
-                                    <User className="mr-2 h-4 w-4" />
-                                    <span>Profile</span>
-                                </a>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                                <a href="/settings" className="w-full flex items-center ">
-                                    <Settings className="mr-2 h-4 w-4" />
-                                    <span>Settings</span>
-                                </a>
-                            </DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                                className="p-0 text-red-600 dark:text-red-400 focus:bg-red-50 dark:focus:bg-red-900/20"
-                                onClick={() => SignOutButton}
-
-                            >
-                                <div className="w-full flex items-center p-2 cursor-pointer">
-                                   <LogOutIcon className="mr-2 h-4 w-4" /> <SignOutButton /> 
-                                    
-                                </div>
-                            </DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                <div className="mt-auto pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                    <div className="flex w-full items-center justify-start gap-2 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950 rounded-lg px-2 cursor-pointer">
+                        <LogOutIcon className="h-5 w-5 shrink-0" />
+                        {open && <SignOutButton />}
+                    </div>
                 </div>
             </SidebarBody>
         </Sidebar>

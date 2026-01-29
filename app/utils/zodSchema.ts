@@ -143,3 +143,20 @@ export const draftInvoiceSchema = z.object({
     companyLogo: optionalString,
     signature: optionalString,
 });
+
+export const updateProfileSchema = z.object({
+    firstName: z.string().min(2, "First Name is required"),
+    lastName: z.string().min(2, "Last Name is required"),
+    email: z.string().email("Valid email is required"),
+});
+
+export const updateBusinessSchema = z.object({
+    businessName: z.string().min(2, "Business Name is required"),
+    address: z.string().min(5, "Address is required"),
+});
+
+export const updateInvoiceDefaultsSchema = z.object({
+    defaultCurrency: z.string().min(1, "Currency is required"),
+    defaultTaxRate: z.preprocess((val) => Number(val), z.number().min(0)),
+    defaultNotes: z.string().optional(),
+});

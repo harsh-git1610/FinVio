@@ -20,6 +20,7 @@ model User {
   lastName      String?
   address       String?
   businessName  String?
+  profileImage  String?
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -28,6 +29,10 @@ model User {
   assets        Asset[]
   
   onboardingCompleted Boolean @default(false)
+  
+  defaultCurrency String @default("USD")
+  defaultTaxRate  Float @default(0)
+  defaultNotes    String?
 
   @@index([clerkId])
 }
@@ -53,7 +58,7 @@ model Invoice {
   toName        String
   toEmail       String
   toAddress     String
-  total         Float @default(0)
+  total         Float 
 
   items         Json
   taxRate       Float
@@ -78,6 +83,7 @@ model Invoice {
 enum AssetType {
   LOGO
   SIGNATURE
+  PROFILE_PHOTO
 }
 
 model Asset {

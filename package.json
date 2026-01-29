@@ -14,6 +14,7 @@
     "@clerk/nextjs": "^6.36.7",
     "@conform-to/react": "^1.13.2",
     "@conform-to/zod": "^1.13.2",
+    "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^6.16.1",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-avatar": "^1.1.10",
@@ -43,6 +44,7 @@
     "react-dom": "19.1.0",
     "react-dropzone": "^14.3.8",
     "react-tabs": "^6.1.0",
+    "recharts": "2.15.4",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
     "zod": "^3.23.0"
