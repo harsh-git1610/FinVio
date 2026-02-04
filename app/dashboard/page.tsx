@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { StatCard } from "@/components/ui/stat-card";
 import { SectionCard } from "@/components/ui/section-card";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { DollarSign, FileText, Clock, FileEdit } from "lucide-react";
+import { DollarSign, FileText, Clock, FileEdit, IndianRupee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { prisma } from "../utils/db";
@@ -117,7 +117,7 @@ export default async function DashboardPage() {
           label="Total Revenue (INR)"
           value={formatINR(totalRevenue)}
           change={{ value: Math.round(revenueChange), trend: revenueChange >= 0 ? "up" : "down" }}
-          icon={DollarSign}
+          icon={IndianRupee}
         />
         <StatCard
           label="Paid Invoices"

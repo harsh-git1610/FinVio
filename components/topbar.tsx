@@ -13,6 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useRouter} from "next/navigation";
+
 
 interface TopbarProps {
     userData: {
@@ -25,6 +27,7 @@ interface TopbarProps {
 
 export function Topbar({ userData }: TopbarProps) {
     const [searchQuery, setSearchQuery] = useState("");
+    const router = useRouter();
 
     const initials = `${userData.firstName.charAt(0)}${userData.lastName.charAt(0)}`.toUpperCase();
     return (
@@ -49,13 +52,17 @@ export function Topbar({ userData }: TopbarProps) {
             {/* Right Actions */}
             <div className="flex items-center gap-3">
                 {/* Ask AI Button */}
-                <Button
+                <Button  onClick={() => router.push("/dashboard/ai-assistant")}
+
                     variant="outline"
                     size="sm"
                     className="group gap-2 border-blue-200 bg-blue-50 text-blue-700 transition-smooth hover:bg-blue-100 hover:text-blue-800 dark:border-blue-900 dark:bg-blue-950 dark:text-blue-400 dark:hover:bg-blue-900"
                 >
                     <Sparkles className="h-4 w-4 transition-transform group-hover:scale-110" />
                     <span className="hidden sm:inline">Ask AI</span>
+                
+                        
+                    
                 </Button>
 
                 {/* Notifications */}
