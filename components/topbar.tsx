@@ -13,7 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
+import { ModeToggle } from "@/components/mode-toggle";
 
 
 interface TopbarProps {
@@ -52,7 +53,7 @@ export function Topbar({ userData }: TopbarProps) {
             {/* Right Actions */}
             <div className="flex items-center gap-3">
                 {/* Ask AI Button */}
-                <Button  onClick={() => router.push("/dashboard/ai-assistant")}
+                <Button onClick={() => router.push("/dashboard/ai-assistant")}
 
                     variant="outline"
                     size="sm"
@@ -60,20 +61,22 @@ export function Topbar({ userData }: TopbarProps) {
                 >
                     <Sparkles className="h-4 w-4 transition-transform group-hover:scale-110" />
                     <span className="hidden sm:inline">Ask AI</span>
-                
-                        
-                    
+
+
+
                 </Button>
 
                 {/* Notifications */}
-                <Button
+                {/* <Button
                     variant="ghost"
                     size="icon"
                     className="relative h-9 w-9 text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:hover:text-neutral-100"
                 >
                     <Bell className="h-5 w-5" />
                     <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-blue-600 ring-2 ring-white dark:ring-neutral-900" />
-                </Button>
+                </Button> */}
+
+                <ModeToggle />
 
                 {/* User Menu */}
                 <DropdownMenu>
