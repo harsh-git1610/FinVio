@@ -1,10 +1,7 @@
-import { PageHeader } from "@/components/ui/page-header";
-import { SectionCard } from "@/components/ui/section-card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { prisma } from "@/app/utils/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { SettingsForm } from "@/components/settings-form";
+import { ProfileForm } from "../../../components/profile-form";
 
 export default async function SettingsPage() {
     const { userId } = await auth();
@@ -26,32 +23,10 @@ export default async function SettingsPage() {
         firstName: dbUser.firstName || "",
         lastName: dbUser.lastName || "",
         email: dbUser.email || "",
-        businessName: dbUser.businessName || "",
-        address: dbUser.address || "",
         profileImage: dbUser.profileImage || null,
-        defaultCurrency: dbUser.defaultCurrency || "USD",
-        defaultTaxRate: dbUser.defaultTaxRate || 0,
-        defaultNotes: dbUser.defaultNotes || "",
+        // Business data not needed for profile
     };
 
-    return (
-        <div className="space-y-6">
-            <PageHeader
-                title="Settings"
-                description="Manage your account settings and preferences."
-            />
-
-            <Tabs defaultValue="profile" className="space-y-6">
-                <TabsList className="grid w-full max-w-md grid-cols-3">
-                    <TabsTrigger value="profile">Profile</TabsTrigger>
-                    <TabsTrigger value="business">Business</TabsTrigger>
-                    <TabsTrigger value="security">Security</TabsTrigger>
-
-                </TabsList>
-
-                <SettingsForm userData={userData} />
-            </Tabs>
-        </div>
-    );
+    return <ProfileForm userData={userData} />;
 }
 

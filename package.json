@@ -12,6 +12,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
     "@clerk/nextjs": "^6.36.7",
+    "@clerk/themes": "^2.4.51",
     "@conform-to/react": "^1.13.2",
     "@conform-to/zod": "^1.13.2",
     "@floating-ui/react": "^0.27.17",
