@@ -9,11 +9,12 @@ import { Textarea } from "./ui/textarea";
 import { Calendar } from "./ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
-import { CalendarIcon, Plus, Trash2, Send, Save } from "lucide-react";
+import { CalendarIcon, Plus, Trash2, Send, Save, AlertCircle } from "lucide-react";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useForm, getFormProps } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
 import { createInvoiceSchema, draftInvoiceSchema, type InvoiceItem } from "@/app/utils/zodSchema";
@@ -161,6 +162,20 @@ export default function CreateInvoice({
                         </Button>
                     </div>
                 </div>
+
+                {lastResult?.status === "error" && lastResult?.error && (
+                    <Alert variant="destructive" className="mb-6">
+                        <AlertCircle className="h-4 w-4" />
+                        <AlertTitle>Error</AlertTitle>
+                        <AlertDescription>
+                            <ul className="list-disc pl-4">
+                                {Object.entries(lastResult.error).flatMap(([key, messages]) =>
+                                    Array.isArray(messages) ? messages.map((msg, i) => <li key={`${key}-${i}`}>{msg}</li>) : null
+                                )}
+                            </ul>
+                        </AlertDescription>
+                    </Alert>
+                )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Main Invoice Form */}

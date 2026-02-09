@@ -1,5 +1,7 @@
 "use client";
 
+import { Eye, EyeOff } from "lucide-react";
+
 import { SectionCard } from "@/components/ui/section-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,7 +12,8 @@ import { useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { updateProfile, updateBusiness, updateInvoiceDefaults } from "@/app/actions";
 import { toast } from "sonner";
-import { useUser } from "@clerk/nextjs";
+import { useUser, UserProfile } from "@clerk/nextjs";
+import { Alert, AlertTitle, AlertDescription } from "./ui/alert";
 
 interface SettingsFormProps {
     userData: {
@@ -68,40 +71,53 @@ export function SettingsForm({ userData }: SettingsFormProps) {
         else if (defaultsState?.status === "error") toast.error("Failed to update invoice defaults");
     }, [defaultsState]);
 
+
+
     const handleUpdatePassword = async () => {
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            toast.error("All fields are required");
+            return;
+        }
+
         if (newPassword !== confirmPassword) {
             toast.error("Passwords do not match");
             return;
         }
+
+        if (!user) {
+            toast.error("User not loaded");
+            return;
+        }
+
         try {
-            await user?.updatePassword({
+            await user.updatePassword({
                 currentPassword,
                 newPassword,
             });
+
             toast.success("Password updated successfully");
+
             setCurrentPassword("");
             setNewPassword("");
             setConfirmPassword("");
         } catch (error: any) {
             console.error(error);
-            toast.error(error?.errors?.[0]?.message || "Failed to update password");
+
+            toast.error(
+                error?.errors?.[0]?.longMessage ||
+                error?.errors?.[0]?.message ||
+                "Failed to update password"
+            );
         }
     };
 
-    const handleThemeChange = (theme: 'light' | 'dark' | 'system') => {
-        const root = window.document.documentElement;
-        root.classList.remove('light', 'dark');
 
-        if (theme === 'system') {
-            const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-            root.classList.add(systemTheme);
-            localStorage.removeItem("theme");
-        } else {
-            root.classList.add(theme);
-            localStorage.setItem("theme", theme);
-        }
-        toast.success(`Theme set to ${theme}`);
-    };
+
+
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
     return (
         <>
@@ -241,35 +257,89 @@ export function SettingsForm({ userData }: SettingsFormProps) {
             </TabsContent>
 
             {/* Security Tab */}
-            <TabsContent value="security" className="space-y-4">
+            {/* <TabsContent value="security" className="space-y-4">
                 <SectionCard title="Password" description="Change your password">
                     <div className="space-y-4">
                         <div className="space-y-2">
                             <Label htmlFor="currentPassword">Current Password</Label>
-                            <Input
-                                id="currentPassword"
-                                type="password"
-                                value={currentPassword}
-                                onChange={(e) => setCurrentPassword(e.target.value)}
-                            />
+                            <div className="relative">
+                                <Input
+                                    id="currentPassword"
+                                    type={showPassword ? "text" : "password"}
+                                    value={currentPassword}
+                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                />
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? (
+                                        <EyeOff className="h-4 w-4" />
+                                    ) : (
+                                        <Eye className="h-4 w-4" />
+                                    )}
+                                    <span className="sr-only">
+                                        {showPassword ? "Hide password" : "Show password"}
+                                    </span>
+                                </Button>
+                            </div>
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="newPassword">New Password</Label>
-                            <Input
-                                id="newPassword"
-                                type="password"
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
-                            />
+                            <div className="relative">
+                                <Input
+                                    id="newPassword"
+                                    type={showPassword ? "text" : "password"}
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
+                                />
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? (
+                                        <EyeOff className="h-4 w-4" />
+                                    ) : (
+                                        <Eye className="h-4 w-4" />
+                                    )}
+                                    <span className="sr-only">
+                                        {showPassword ? "Hide password" : "Show password"}
+                                    </span>
+                                </Button>
+                            </div>
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="confirmPassword">Confirm New Password</Label>
-                            <Input
-                                id="confirmPassword"
-                                type="password"
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                            />
+                            <div className="relative">
+                                <Input
+                                    id="confirmPassword"
+                                    type={showPassword ? "text" : "password"}
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                />
+                                <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="sm"
+                                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                                    onClick={togglePasswordVisibility}
+                                >
+                                    {showPassword ? (
+                                        <EyeOff className="h-4 w-4" />
+                                    ) : (
+                                        <Eye className="h-4 w-4" />
+                                    )}
+                                    <span className="sr-only">
+                                        {showPassword ? "Hide password" : "Show password"}
+                                    </span>
+                                </Button>
+                            </div>
                         </div>
                         <div className="flex justify-end">
                             <Button onClick={handleUpdatePassword}>Update Password</Button>
@@ -277,102 +347,35 @@ export function SettingsForm({ userData }: SettingsFormProps) {
                     </div>
                 </SectionCard>
 
+
+            </TabsContent> */}
+
+            <TabsContent value="security" className="space-y-4">
                 <SectionCard
-                    title="Two-Factor Authentication"
-                    description="Add an extra layer of security"
+                    title="Security"
+                    description="Manage your password, sessions, and verification"
                 >
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
-                                2FA Status
-                            </p>
-                            <p className="text-sm text-neutral-500 dark:text-neutral-400">
-                                Two-factor authentication is currently disabled
-                            </p>
-                        </div>
-                        <Button variant="outline" onClick={() => toast.info("Please use Clerk dashboard to manage 2FA")}>Enable 2FA</Button>
-                    </div>
-                </SectionCard>
+                    <div className="rounded-lg border bg-background p-4">
+                        <UserProfile
+                            routing="path"
+                            path="/settings"
+                            appearance={{
+                                elements: {
+                                    navbar: "hidden",
+                                    headerTitle: "hidden",
+                                    headerSubtitle: "hidden",
+                                    profileSectionPrimaryButton: "hidden",
+                                    profileSection: "hidden",
 
-                <SectionCard title="Active Sessions" description="Manage your active sessions">
-                    <div className="space-y-3">
-                        <div className="flex items-center justify-between rounded-lg border border-neutral-200 p-4 dark:border-neutral-800">
-                            <div>
-                                <p className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
-                                    Current Session
-                                </p>
-                                <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                                    Windows • Chrome • Active now
-                                </p>
-                            </div>
-                            <Button variant="ghost" size="sm" onClick={() => toast.info("Please use Clerk dashboard to manage sessions")}>
-                                Revoke
-                            </Button>
-                        </div>
+                                },
+                            }}
+                        />
+
                     </div>
                 </SectionCard>
             </TabsContent>
 
-            {/* Preferences Tab */}
-            <TabsContent value="preferences" className="space-y-4">
-                <SectionCard title="Appearance" description="Customize your interface">
-                    <div className="space-y-4">
-                        <div className="space-y-2">
-                            <Label>Theme</Label>
-                            <div className="grid grid-cols-3 gap-3">
-                                <button onClick={() => handleThemeChange('light')} className="rounded-lg border-2 border-blue-600 bg-white p-4 text-sm font-medium hover:bg-neutral-50 dark:bg-neutral-900 dark:hover:bg-neutral-800">
-                                    Light
-                                </button>
-                                <button onClick={() => handleThemeChange('dark')} className="rounded-lg border border-neutral-200 bg-white p-4 text-sm font-medium hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800">
-                                    Dark
-                                </button>
-                                <button onClick={() => handleThemeChange('system')} className="rounded-lg border border-neutral-200 bg-white p-4 text-sm font-medium hover:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800">
-                                    System
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </SectionCard>
 
-                <SectionCard title="Notifications" description="Manage your notification preferences">
-                    <div className="space-y-4">
-                        {[
-                            { label: "Email notifications", description: "Receive email updates" },
-                            { label: "Invoice reminders", description: "Get reminded about pending invoices" },
-                            { label: "Payment notifications", description: "Notify when payments are received" },
-                        ].map((item, index) => (
-                            <div key={index} className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
-                                        {item.label}
-                                    </p>
-                                    <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                                        {item.description}
-                                    </p>
-                                </div>
-                                <button onClick={() => toast.success("Notification setting saved")} className="relative inline-flex h-6 w-11 items-center rounded-full bg-blue-600 transition-colors cursor-pointer">
-                                    <span className="inline-block h-4 w-4 translate-x-6 transform rounded-full bg-white transition" />
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                </SectionCard>
-
-                <SectionCard title="Language & Region" description="Set your language and timezone">
-                    <div className="space-y-4">
-                        <div className="grid gap-4 sm:grid-cols-2">
-                            <div className="space-y-2">
-                                <Label htmlFor="language">Language</Label>
-                                <Input id="language" value="English" readOnly />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="timezone">Timezone</Label>
-                                <Input id="timezone" value="UTC+5:30 (IST)" readOnly />
-                            </div>
-                        </div>
-                    </div>
-                </SectionCard>
-            </TabsContent>
         </>
     );
 }

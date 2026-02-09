@@ -1,9 +1,13 @@
-import SidebarDemo from "@/components/sidebar-demo";
-import { Topbar } from "@/components/topbar";
+import { Sidebar } from "@/components/animate-ui/components/radix/sidebar"
+import { Separator } from "@/components/ui/separator"
+import {
+    SidebarInset,
+    SidebarProvider,
+    SidebarTrigger,
+} from "@/components/animate-ui/components/radix/sidebar"
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "../utils/db";
-
 
 export default async function DashboardLayout({
     children,
@@ -26,6 +30,9 @@ export default async function DashboardLayout({
     } catch (error) {
         console.error("Database connection error:", error);
         return (
+            // ... error UI (I should keep the existing error UI logic if possible, or simplifying for now as the user didn't ask to change it. 
+            // Actually, the error UI is quite long. I should try to preserve it or just rewrite the return part if the surrounding logic is same.
+            // The REPLACE tool requires me to provide the REPLACEMENT content. I will preserve the error UI logic.
             <div className="flex h-screen w-full flex-col items-center justify-center gap-4 bg-neutral-50 px-4 text-center dark:bg-neutral-950">
                 <div className="rounded-full bg-red-100 p-3 dark:bg-red-900/20">
                     <svg
@@ -65,7 +72,7 @@ export default async function DashboardLayout({
         redirect("/onboarding");
     }
 
-    // Prepare user data for Topbar
+    // Prepare user data for AppSidebar
     const userData = {
         firstName: dbUser.firstName || "",
         lastName: dbUser.lastName || "",
@@ -74,17 +81,22 @@ export default async function DashboardLayout({
     };
 
     return (
-        <div className="flex h-screen overflow-hidden bg-neutral-50 dark:bg-neutral-950">
-            <div className="relative shrink-0">
-                <SidebarDemo />
-                <div className="absolute right-0 top-0 h-full w-px bg-gradient-to-b from-transparent via-neutral-200 to-transparent dark:via-neutral-800"></div>
-            </div>
-            <div className="flex flex-1 flex-col overflow-hidden">
-                <Topbar userData={userData} />
-                <main className="flex-1 overflow-y-auto p-6 scrollbar-thin">
-                    {children}
-                </main>
-            </div>
-        </div>
+        <SidebarProvider>
+            <Sidebar userData={userData} />
+            <SidebarInset>
+                <header className="flex h-16 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 border-neutral-200 dark:border-neutral-800">
+                    <div className="flex items-center gap-2 px-4">
+                        <SidebarTrigger className="-ml-1" />
+                        <Separator orientation="vertical" className="mr-2 h-4" />
+                        {/* We can add breadcrumbs here later if needed */}
+                    </div>
+                </header>
+                <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                    <main className="flex-1 overflow-y-auto p-2 scrollbar-thin">
+                        {children}
+                    </main>
+                </div>
+            </SidebarInset>
+        </SidebarProvider>
     );
 }

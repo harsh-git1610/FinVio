@@ -42,11 +42,11 @@ export default async function SettingsPage() {
             />
 
             <Tabs defaultValue="profile" className="space-y-6">
-                <TabsList className="grid w-full max-w-md grid-cols-4">
+                <TabsList className="grid w-full max-w-md grid-cols-3">
                     <TabsTrigger value="profile">Profile</TabsTrigger>
                     <TabsTrigger value="business">Business</TabsTrigger>
                     <TabsTrigger value="security">Security</TabsTrigger>
-                    <TabsTrigger value="preferences">Preferences</TabsTrigger>
+
                 </TabsList>
 
                 <SettingsForm userData={userData} />

@@ -11,6 +11,8 @@ import { onboardingSchema } from "../utils/zodSchema";
 import { getInputProps, useForm } from "@conform-to/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 // Custom submit button with loading state
 function SubmitButtonWithStatus({
@@ -159,7 +161,17 @@ export default function OnboardingPage() {
                         </div>
 
                         {/* Display General Form Errors */}
-                        {form.errors && form.errors.map((err) => <p>{err}</p>)}
+                        {form.errors && form.errors.length > 0 && (
+                            <Alert variant="destructive">
+                                <AlertCircle className="h-4 w-4" />
+                                <AlertTitle>Error</AlertTitle>
+                                <AlertDescription>
+                                    {form.errors.map((err, index) => (
+                                        <p key={index}>{err}</p>
+                                    ))}
+                                </AlertDescription>
+                            </Alert>
+                        )}
 
 
                     </CardContent>
@@ -167,7 +179,7 @@ export default function OnboardingPage() {
                     <CardFooter className="flex flex-col space-y-4">
                         <SubmitButtonWithStatus text="Finish Onboarding" isPending={isPending} />
 
-                        
+
                     </CardFooter>
                 </Card>
             </form>
