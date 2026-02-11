@@ -13,10 +13,12 @@ export function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="mx-auto flex w-fit items-center rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium text-neutral-300 backdrop-blur-sm"
+                    className="mx-auto flex w-fit items-center rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium text-neutral-300 backdrop-blur-sm overflow-hidden relative"
                 >
-                    <span>Introducing InvoiceGen AI</span>
-                    <ArrowRight className="ml-2 h-3.5 w-3.5 opacity-50" />
+                    <span className="relative z-10 flex items-center gap-2">
+                        Introducing InvoiceGen AI <ArrowRight className="h-3.5 w-3.5 opacity-50" />
+                    </span>
+                    <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
                 </motion.div>
 
                 <motion.h1
@@ -64,7 +66,7 @@ export function Hero() {
 
             {/* Background Effects */}
             <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808030_1px,transparent_1px),linear-gradient(to_bottom,#80808030_1px,transparent_1px)] bg-[size:25px_25px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808040_1px,transparent_1px),linear-gradient(to_bottom,#80808040_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
                 <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-blue-500/10 via-transparent to-transparent blur-3xl rounded-full opacity-30 transform -translate-y-1/2"></div>
             </div>
         </section>
