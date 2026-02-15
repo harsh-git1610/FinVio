@@ -4,6 +4,7 @@ import { FadeIn } from "@/components/landing/fade-in";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, CheckCircle2, Clock, FileText, Filter, MoreHorizontal, Plus } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Operations() {
     return (
@@ -18,8 +19,7 @@ export function Operations() {
                             Manage invoices and view detailed reports directly from the Dashboard. It's easy to
                             update, void, duplicate, refund, or mark invoices as paid outside of FinVio. Automate
                             accounts receivable processes and reduce time spent tracking and collecting
-                            invoice payments. Enable your customers to self-manage their invoices and
-                            subscriptions from a secure, prebuilt <span className="text-blue-600 font-medium">customer portal</span>.
+                            invoice payments.
                         </p>
 
                         <div className="space-y-4 mb-8">
@@ -39,11 +39,9 @@ export function Operations() {
 
                         <div className="flex gap-4">
                             <Button className="bg-neutral-900 text-white hover:bg-neutral-800">
-                                Start now <ArrowRight className="ml-2 h-4 w-4" />
+                                <Link href="/login">Start now </Link><Link href="/login"><ArrowRight className="ml-2 h-4 w-4" /></Link>
                             </Button>
-                            <Button variant="outline" className="text-neutral-600 hover:text-neutral-900">
-                                View documentation
-                            </Button>
+
                         </div>
                     </FadeIn>
 
@@ -79,27 +77,22 @@ export function Operations() {
                                 <div className="col-span-3">Invoice Number</div>
                                 <div className="col-span-4">Customer</div>
                                 <div className="col-span-3 text-right">Date</div>
-                                
+
                             </div>
 
                             {/* Table Rows */}
                             <div className="divide-y divide-neutral-50 bg-white">
                                 {[
-                                    { amount: "£1,200.00", status: "Paid", number: "INV-2024-001", customer: "Acme Corp", email: "billing@acme.com", date: "Today" },
-                                    { amount: "£850.00", status: "Overdue", number: "INV-2024-002", customer: "Globex Inc", email: "finance@globex.com", date: "Yesterday" },
-                                    { amount: "£2,400.00", status: "Paid", number: "INV-2023-089", customer: "Soylent Corp", email: "ap@soylent.com", date: "Oct 24" },
-                                    { amount: "£450.00", status: "Draft", number: "INV-2024-003", customer: "Initech", email: "peter@initech.com", date: "Oct 22" },
-                                    { amount: "£9,800.00", status: "Paid", number: "INV-2023-088", customer: "Umbrella Corp", email: "wesker@umbrella.com", date: "Oct 20" },
+                                    { amount: "£1,200.00", number: "INV-2024-001", customer: "Acme Corp", email: "billing@acme.com", date: "Today" },
+                                    { amount: "£850.00", number: "INV-2024-002", customer: "Globex Inc", email: "finance@globex.com", date: "Yesterday" },
+                                    { amount: "£2,400.00", number: "INV-2023-089", customer: "Soylent Corp", email: "ap@soylent.com", date: "Oct 24" },
+                                    { amount: "£450.00", number: "INV-2024-003", customer: "Initech", email: "peter@initech.com", date: "Oct 22" },
+                                    { amount: "£9,800.00", number: "INV-2023-088", customer: "Umbrella Corp", email: "wesker@umbrella.com", date: "Oct 20" },
                                 ].map((invoice, i) => (
                                     <div key={i} className="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-neutral-50/50 transition-colors group cursor-default">
                                         <div className="col-span-2 font-medium text-neutral-900 flex items-center gap-2">
                                             {invoice.amount}
-                                            <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-medium border ${invoice.status === "Paid" ? "bg-emerald-50 text-emerald-600 border-emerald-100" :
-                                                    invoice.status === "Overdue" ? "bg-amber-50 text-amber-600 border-amber-100" :
-                                                        "bg-neutral-100 text-neutral-600 border-neutral-200"
-                                                }`}>
-                                                {invoice.status}
-                                            </span>
+
                                         </div>
                                         <div className="col-span-3 text-sm text-neutral-500 font-mono">{invoice.number}</div>
                                         <div className="col-span-4">
