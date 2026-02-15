@@ -8,9 +8,9 @@ export function Footer() {
                 <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
                     <div className="flex items-center gap-2">
                         <div className="rounded-md">
-                            <Image src="/logo.png" alt="FinVio Logo" width={24} height={16} />
+                            <Image src="/logo.png" alt="FinVio Logo" width={30} height={30} />
                         </div>
-                        <span className="text-sm font-semibold text-white">FinVio</span>
+                        <span className="text-lg font-bold tracking-tight text-white">FinVio</span>
                     </div>
 
                     <p className="text-sm text-neutral-500">

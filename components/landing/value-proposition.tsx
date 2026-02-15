@@ -158,20 +158,12 @@ export function ValueProposition() {
                                                 <div className="h-24 flex items-end gap-2 pt-2 border-t border-neutral-50/50">
                                                     {/* Simple Bar Chart CSS */}
                                                     <div className="w-full bg-neutral-100 rounded-t-sm h-[60%] relative group">
-                                                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-neutral-800 text-white text-[10px] py-0.5 px-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Nov '23</div>
+                                                        <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-neutral-800 text-white text-[10px] py-0.5 px-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Nov '24</div>
                                                     </div>
                                                     <div className="w-full bg-blue-500 rounded-t-sm h-[84%] relative group">
                                                         <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-neutral-800 text-white text-[10px] py-0.5 px-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Now</div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="flex gap-2">
-                                                <button className="text-xs bg-neutral-100 hover:bg-neutral-200 text-neutral-600 px-3 py-1.5 rounded-full transition-colors">
-                                                    Show breakdown
-                                                </button>
-                                                <button className="text-xs bg-neutral-100 hover:bg-neutral-200 text-neutral-600 px-3 py-1.5 rounded-full transition-colors">
-                                                    Export report
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -179,7 +171,7 @@ export function ValueProposition() {
                                 <div className="p-4 border-t border-neutral-100 bg-white">
                                     <div className="relative">
                                         <input
-                                            disabled
+                                            
                                             placeholder="Ask a follow up question..."
                                             className="w-full bg-neutral-50 border border-neutral-200 rounded-lg pl-4 pr-10 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20"
                                         />
