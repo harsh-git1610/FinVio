@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "InvoiceGen",
-  description: "InvoiceGen",
+  title: "FinVio",
+  description: "FinVio - Professional Invoice Generation",
 }
 
 export default function RootLayout({

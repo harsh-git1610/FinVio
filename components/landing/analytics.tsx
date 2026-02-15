@@ -1,6 +1,6 @@
 "use client";
 
-import { Line, LineChart, ResponsiveContainer, Tooltip } from "recharts";
+import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis, CartesianGrid } from "recharts";
 import { FadeIn } from "@/components/landing/fade-in";
 
 const data = [
@@ -17,14 +17,14 @@ const data = [
 
 export function Analytics() {
     return (
-        <section className="py-24 sm:py-32 border-t border-white/5">
+        <section className="py-24 sm:py-32 bg-white border-y border-neutral-100">
             <div className="container mx-auto max-w-6xl px-4 sm:px-6">
                 <FadeIn>
                     <div className="mx-auto max-w-2xl text-center mb-16">
-                        <h2 className="text-3xl font-bold tracking-tight text-white mb-4">
+                        <h2 className="text-3xl font-bold tracking-tight text-neutral-900 mb-4">
                             See the bigger picture.
                         </h2>
-                        <p className="text-lg text-neutral-400">
+                        <p className="text-lg text-neutral-600">
                             Track your financial growth with elegant, clutter-free charts.
                             Identify trends instantly.
                         </p>
@@ -32,40 +32,40 @@ export function Analytics() {
                 </FadeIn>
 
                 <FadeIn delay={0.2}>
-                    <div className="mx-auto max-w-4xl rounded-2xl border border-white/10 bg-neutral-900/50 p-4 sm:p-8 relative group transition-all duration-500 hover:border-white/20">
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10 pointer-events-none rounded-2xl" />
+                    <div className="mx-auto max-w-4xl rounded-2xl border border-neutral-200 bg-white p-4 sm:p-8 shadow-xl shadow-neutral-100/50 relative overflow-hidden">
                         <div className="h-[300px] w-full mt-4">
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={data}>
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f5f5f5" />
                                     <Tooltip
-                                        contentStyle={{ backgroundColor: "#171717", borderColor: "#262626", color: "#ededed" }}
-                                        itemStyle={{ color: "#ededed" }}
-                                        cursor={{ stroke: "#404040" }}
+                                        contentStyle={{ backgroundColor: "#ffffff", borderColor: "#e5e5e5", color: "#171717", borderRadius: "8px", boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)" }}
+                                        itemStyle={{ color: "#171717" }}
+                                        cursor={{ stroke: "#e5e5e5" }}
                                     />
                                     <Line
                                         type="monotone"
                                         dataKey="value"
-                                        stroke="#3b82f6"
-                                        strokeWidth={2}
+                                        stroke="#2563eb"
+                                        strokeWidth={3}
                                         dot={false}
-                                        activeDot={{ r: 4, strokeWidth: 0 }}
+                                        activeDot={{ r: 6, strokeWidth: 0, fill: "#2563eb" }}
                                     />
                                 </LineChart>
                             </ResponsiveContainer>
                         </div>
 
-                        <div className="mt-8 grid grid-cols-3 gap-8 text-center border-t border-white/5 pt-8">
-                            <div className="group-hover:text-blue-400 transition-colors">
-                                <div className="text-2xl font-bold text-white group-hover:text-blue-400 transition-colors">$12.4k</div>
-                                <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">Revenue</div>
+                        <div className="mt-8 grid grid-cols-3 gap-8 text-center border-t border-neutral-100 pt-8">
+                            <div className="group-hover:text-blue-600 transition-colors">
+                                <div className="text-3xl font-bold text-neutral-900 group-hover:text-blue-600 transition-colors">$12.4k</div>
+                                <div className="text-sm text-neutral-500 font-medium uppercase tracking-wider mt-1">Revenue</div>
                             </div>
                             <div>
-                                <div className="text-2xl font-bold text-white">+14%</div>
-                                <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">Growth</div>
+                                <div className="text-3xl font-bold text-neutral-900">+14%</div>
+                                <div className="text-sm text-neutral-500 font-medium uppercase tracking-wider mt-1">Growth</div>
                             </div>
                             <div>
-                                <div className="text-2xl font-bold text-white">12</div>
-                                <div className="text-xs text-neutral-500 uppercase tracking-wider mt-1">Invoices</div>
+                                <div className="text-3xl font-bold text-neutral-900">12</div>
+                                <div className="text-sm text-neutral-500 font-medium uppercase tracking-wider mt-1">Invoices</div>
                             </div>
                         </div>
                     </div>

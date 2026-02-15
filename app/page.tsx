@@ -7,17 +7,23 @@ import { Analytics } from "@/components/landing/analytics";
 import { Trust } from "@/components/landing/trust";
 import { CTA } from "@/components/landing/cta";
 import { Footer } from "@/components/landing/footer";
+import { Operations } from "@/components/landing/operations";
+import { Comparison } from "@/components/landing/comparison";
+import { Revenue } from "@/components/landing/revenue";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground selection:bg-white/20">
+    <main className="min-h-screen bg-white text-neutral-900 selection:bg-blue-100 selection:text-blue-900">
       <Navbar />
       <Hero />
       <Trust />
+      <Operations />
       <ValueProposition />
+      <Comparison />
       <Features />
-      <AIAssistant />
+      <Revenue />
       <Analytics />
+      <AIAssistant />
       <CTA />
       <Footer />
     </main>

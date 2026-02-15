@@ -5,64 +5,52 @@ import { motion } from "framer-motion";
 
 export function ValueProposition() {
     return (
-        <section className="py-24 sm:py-32">
+        <section className="py-24 sm:py-32 bg-neutral-50 border-y border-neutral-100">
             <div className="container mx-auto max-w-6xl px-4 sm:px-6">
-                <FadeIn className="mx-auto max-w-2xl text-center mb-20">
-                    <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                        Built for those who value clarity.
+                <FadeIn className="mx-auto max-w-2xl text-center mb-16">
+                    <h2 className="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">
+                        Everything you need to get paid professionally.
                     </h2>
-                    <p className="mt-4 text-lg text-neutral-400">
-                        No bloated features. No confusing menus. Just the tools you need to run your business, refined to perfection.
+                    <p className="mt-4 text-lg text-neutral-600">
+                        Simple tools that help you look professional, save time, and get paid faster.
                     </p>
                 </FadeIn>
 
                 {/* Grid Container */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 border-t border-white/10 lg:border-t-0">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {[
                         {
-                            id: "01",
-                            title: "Lightning Fast",
-                            description: "Generate professional invoices in under 10 seconds with smart defaults.",
-                            visual: <LightningVisual />,
+                            title: "Get Paid Faster",
+                            description: "Create and send professional invoices in under 2 minutes. Track exactly when clients view and pay.",
+                            icon: <ZapIcon />,
+                            color: "bg-blue-50 text-blue-600",
                         },
                         {
-                            id: "02",
-                            title: "AI Powered",
-                            description: "Ask questions about your finances in plain English. No SQL required.",
-                            visual: <AIVisual />,
+                            title: "Look Professional",
+                            description: "Stand out with customizable templates. Add your logo and branding to every invoice you send.",
+                            icon: <StarIcon />,
+                            color: "bg-purple-50 text-purple-600",
                         },
                         {
-                            id: "03",
-                            title: "Privacy First",
-                            description: "Your financial data is encrypted and secure. We never sell your data.",
-                            visual: <PrivacyVisual />,
+                            title: "Save Time",
+                            description: "Save client details for one-click invoicing. No more copy-pasting or manual data entry.",
+                            icon: <ClockIcon />,
+                            color: "bg-emerald-50 text-emerald-600",
                         },
                     ].map((item, index) => (
                         <FadeIn
                             key={index}
                             delay={index * 0.1}
-                            className={`
-                group relative flex flex-col justify-between border-b border-white/10 p-8 lg:border-b-0 
-                ${index !== 2 ? "lg:border-r" : ""} 
-                hover:bg-white/[0.02] transition-colors duration-500
-              `}
+                            className="group relative flex flex-col items-start p-8 bg-white rounded-2xl border border-neutral-100 shadow-sm hover:shadow-md transition-shadow"
                         >
-                            {/* Top Markers (Desktop) */}
-
-
-                            <div className="mb-12">
-                                <span className="font-mono text-xs text-neutral-500 tracking-widest">[{item.id}]</span>
-                                <div className="mt-12 flex items-center justify-center min-h-[160px]">
-                                    {item.visual}
-                                </div>
+                            <div className={`h-12 w-12 rounded-xl ${item.color} flex items-center justify-center mb-6`}>
+                                {item.icon}
                             </div>
 
-                            <div>
-                                <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-                                <p className="mt-3 text-sm text-neutral-400 leading-relaxed max-w-[90%]">
-                                    {item.description}
-                                </p>
-                            </div>
+                            <h3 className="text-xl font-semibold text-neutral-900 mb-3">{item.title}</h3>
+                            <p className="text-neutral-600 leading-relaxed">
+                                {item.description}
+                            </p>
                         </FadeIn>
                     ))}
                 </div>
@@ -71,66 +59,27 @@ export function ValueProposition() {
     );
 }
 
-function LightningVisual() {
+function ZapIcon() {
     return (
-        <div className="relative">
-            <div className="absolute inset-0 bg-blue-500/20 blur-2xl rounded-full" />
-            <div className="relative rounded-lg border border-white/10 bg-black/50 p-4 backdrop-blur-md w-[200px]">
-                <div className="flex gap-2 mb-3">
-                    <div className="h-2 w-2 rounded-full bg-red-500/20" />
-                    <div className="h-2 w-2 rounded-full bg-yellow-500/20" />
-                    <div className="h-2 w-2 rounded-full bg-green-500/20" />
-                </div>
-                <div className="space-y-2">
-                    <div className="h-2 w-3/4 bg-white/10 rounded-sm" />
-                    <div className="h-2 w-1/2 bg-white/5 rounded-sm" />
-                    <div className="flex items-center gap-2 mt-4">
-                        <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-                        <span className="text-[10px] text-green-500 font-mono">Invoice_Gen_v2</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
     )
 }
 
-function AIVisual() {
+function StarIcon() {
     return (
-        <div className="relative h-32 w-32 flex items-center justify-center">
-            <div className="absolute inset-0 border border-dashed border-white/10 rounded-full animate-[spin_10s_linear_infinite]" />
-            <div className="absolute inset-4 border border-dashed border-white/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
-            <div className="relative flex h-12 w-12 items-center justify-center rounded-full bg-white/5 border border-white/10">
-                <svg className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-            </div>
-            <motion.div
-                className="absolute -right-4 top-0 bg-neutral-800 text-[10px] text-white px-2 py-1 rounded-md border border-white/5"
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-            >
-                query.parsed
-            </motion.div>
-        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
     )
 }
 
-function PrivacyVisual() {
+function ClockIcon() {
     return (
-        <div className="relative flex items-center justify-center gap-4">
-            <div className="h-2 w-12 border-t border-dashed border-white/20" />
-            <div className="relative flex h-16 w-16 items-center justify-center rounded-xl bg-white/5 border border-white/10">
-                <svg className="h-8 w-8 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-                <div className="absolute -bottom-2 bg-neutral-900 border border-white/10 px-2 py-0.5 rounded-full">
-                    <span className="text-[10px] text-green-500 flex items-center gap-1">
-                        <span className="h-1 w-1 rounded-full bg-green-500" />
-                        Auth 2.0
-                    </span>
-                </div>
-            </div>
-            <div className="h-2 w-12 border-t border-dashed border-white/20" />
-        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+        </svg>
     )
 }
