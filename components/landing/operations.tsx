@@ -61,10 +61,10 @@ export function Operations() {
                             <div className="p-4 border-b border-neutral-100 flex items-center justify-between bg-white">
                                 <h3 className="font-semibold text-neutral-900">Invoices</h3>
                                 <div className="flex gap-2">
-                                    <Button variant="outline" size="sm" className="h-8 text-xs gap-2">
+                                    <Button variant="outline" size="sm" className="h-8 text-xs cursor-pointer  hover:text-blue-600 gap-2">
                                         <Filter size={12} /> Filter
                                     </Button>
-                                    <Button variant="outline" size="sm" className="h-8 text-xs">
+                                    <Button variant="outline" size="sm" className="h-8 text-xs cursor-pointer hover:text-blue-600">
                                         Export
                                     </Button>
                                     <Button size="sm" className="h-8 text-xs bg-blue-600 hover:bg-blue-700 text-white gap-2">
@@ -79,6 +79,7 @@ export function Operations() {
                                 <div className="col-span-3">Invoice Number</div>
                                 <div className="col-span-4">Customer</div>
                                 <div className="col-span-3 text-right">Date</div>
+                                
                             </div>
 
                             {/* Table Rows */}
