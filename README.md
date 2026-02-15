@@ -18,14 +18,17 @@
   - User records are created in the database only when required
   - Authentication handled by Clerk
   - User data synced from Clerk to the application database
+    
+### Invoice Generation 
+- Implemented all invoice related features - including pdf
 
+### AI Assistant 
+ - Integrated Gemini
+ - Bounded it to the current scope of Application
+ - Made it context aware 
+   
 ## In Progress / Planned Features
-- **Webhooks integration**
-  - Planned flow: Clerk → Webhooks → Database
-  - Will be used to sync user lifecycle events (sign-up, updates, etc.)
-
-- **PDF Invoice Templates**
-  - Currently designing and implementing PDF templates for invoices
+-Landing Page
 
 ## Tech Stack
 - Next.js
@@ -34,8 +37,7 @@
 - PDF Generation (TBD)
 
 ## Current Focus
-- Finalizing PDF invoice templates
-- Improving authentication and user data synchronization logic
+-Landing Page and minute ui changes 
 
 ## Notes
 - This project is under active development.
