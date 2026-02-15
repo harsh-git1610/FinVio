@@ -23,7 +23,7 @@ export default function Home() {
       <Features />
       <Revenue />
       <Analytics />
-      <AIAssistant />
+      
       <CTA />
       <Footer />
     </main>
