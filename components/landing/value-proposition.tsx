@@ -260,7 +260,7 @@ export function ValueProposition() {
                                             <Check size={14} strokeWidth={3} />
                                         </div>
                                         {item}
-                                    </li>
+                                    </li> 
                                 ))}
                             </ul>
                         </FadeIn>

@@ -6,7 +6,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import {
   PanelLeftIcon,
   BarChart3,
-  Image,
+  Image as ImageIcon,
   LayoutDashboard,
   ReceiptText,
   Settings,
@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { type Transition } from 'motion/react';
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 
 import {
@@ -198,7 +199,7 @@ const items = [
   {
     title: "Assets",
     url: "/dashboard/assets",
-    icon: Image,
+    icon: ImageIcon,
   },
   {
     title: "Analytics",
@@ -373,11 +374,11 @@ function Sidebar({ userData, ...props }: AppSidebarProps) {
       <SidebarHeader>
         <div className="flex h-12 items-center gap-2 px-2 text-sidebar-foreground">
           <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-violet-600 text-sidebar-primary-foreground">
-            <ReceiptText className="size-4 text-white" />
+            <Image src="/logo.png" alt="Logo" width={30} height={30} />
           </div>
           <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold">Invocely</span>
-            <span className="truncate text-xs text-muted-foreground">Invoice Generator</span>
+            <span className="truncate font-semibold">FinVio</span>
+
           </div>
         </div>
       </SidebarHeader>
