@@ -20,11 +20,11 @@ export default function Home() {
       <Operations />
       <ValueProposition />
       <Comparison />
-      
+
       <Revenue />
       <Features />
-      
-      
+
+
       <CTA />
       <Footer />
     </main>
