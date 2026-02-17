@@ -110,7 +110,7 @@ export function Hero() {
                                 <div className="h-8 w-8 rounded-full bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center text-xs text-neutral-600 dark:text-white font-medium">SX</div>
                                 <div className="flex flex-col">
                                     <span className="text-xs font-medium text-neutral-900 dark:text-white">SpaceX</span>
-                                    <span className="text-[10px] text-neutral-500">muskelon@gmail.com</span>
+                                    <span className="text-[10px] text-neutral-500">[EMAIL_ADDRESS]</span>
                                 </div>
                             </div>
                         </div>
