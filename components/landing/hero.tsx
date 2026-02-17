@@ -69,19 +69,19 @@ export function Hero() {
                     initial={{ opacity: 0, y: 40, rotateX: 20 }}
                     animate={{ opacity: 1, y: 0, rotateX: 0 }}
                     transition={{ duration: 0.8, delay: 0.4, type: "spring" }}
-                    className="mt-12 perspective-1000"
+                    className="mt-12 perspective-1000 w-full"
                 >
-                    <div className="relative mx-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-2xl shadow-blue-900/10 sm:p-4 max-w-3xl rotate-x-12 transform-gpu dark:bg-neutral-900 dark:border-neutral-800">
+                    <div className="relative mx-auto rounded-xl border border-neutral-200 bg-white p-2 shadow-2xl shadow-blue-900/10 sm:p-4 max-w-3xl rotate-x-12 transform-gpu dark:bg-neutral-900 dark:border-neutral-800 w-full">
                         <div className="aspect-[16/10] overflow-hidden rounded-lg bg-neutral-50 border border-neutral-100 relative dark:bg-neutral-950 dark:border-neutral-800">
                             {/* Abstract representation of an invoice UI */}
-                            <div className="absolute top-0 left-0 right-0 h-16 border-b border-neutral-100 bg-white flex items-center px-6 justify-between dark:bg-neutral-900 dark:border-neutral-800">
+                            <div className="absolute top-0 left-0 right-0 h-16 border-b border-neutral-100 bg-white flex items-center px-4 sm:px-6 justify-between dark:bg-neutral-900 dark:border-neutral-800">
                                 <div className="h-6 w-24 bg-neutral-100 rounded-md dark:bg-neutral-800"></div>
                                 <div className="flex gap-2">
                                     <div className="h-8 w-8 rounded-full bg-neutral-100 dark:bg-neutral-800"></div>
                                 </div>
                             </div>
-                            <div className="p-8 mt-16 flex gap-8">
-                                <div className="w-64 space-y-3">
+                            <div className="p-4 sm:p-8 mt-16 flex gap-4 sm:gap-8">
+                                <div className="hidden sm:block w-64 space-y-3">
                                     <div className="h-4 w-32 bg-neutral-100 rounded dark:bg-neutral-800"></div>
                                     <div className="h-4 w-24 bg-neutral-50 rounded dark:bg-neutral-900"></div>
                                     <div className="h-24 w-full bg-white border border-neutral-100 rounded-lg p-3 space-y-2 mt-4 dark:bg-neutral-900 dark:border-neutral-800">

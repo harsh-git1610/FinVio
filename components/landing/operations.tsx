@@ -60,48 +60,51 @@ export function Operations() {
                                 <h3 className="font-semibold text-neutral-900 dark:text-white">Invoices</h3>
                                 <div className="flex gap-2">
                                     <Button variant="outline" size="sm" className="h-8 text-xs cursor-pointer  hover:text-blue-600 gap-2 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:text-white">
-                                        <Filter size={12} /> Filter
+                                        <Filter size={12} /> <span className="hidden sm:inline">Filter</span>
                                     </Button>
                                     <Button variant="outline" size="sm" className="h-8 text-xs cursor-pointer hover:text-blue-600 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:text-white">
                                         Export
                                     </Button>
                                     <Button size="sm" className="h-8 text-xs bg-blue-600 hover:bg-blue-700 text-white gap-2 dark:bg-blue-600 dark:hover:bg-blue-500">
-                                        <Plus size={12} /> Create invoice
+                                        <Plus size={12} /> <span className="hidden sm:inline">Create invoice</span><span className="sm:hidden">New</span>
                                     </Button>
                                 </div>
                             </div>
 
-                            {/* Table Header */}
-                            <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-neutral-50/50 text-xs font-medium text-neutral-500 border-b border-neutral-100 uppercase tracking-wider dark:bg-neutral-800/30 dark:border-neutral-800 dark:text-neutral-400">
-                                <div className="col-span-2">Amount</div>
-                                <div className="col-span-3">Invoice Number</div>
-                                <div className="col-span-4">Customer</div>
-                                <div className="col-span-3 text-right">Date</div>
-
-                            </div>
-
-                            {/* Table Rows */}
-                            <div className="divide-y divide-neutral-50 bg-white dark:bg-neutral-900 dark:divide-neutral-800">
-                                {[
-                                    { amount: "£1,200.00", number: "INV-2024-001", customer: "Acme Corp", email: "billing@acme.com", date: "Today" },
-                                    { amount: "£850.00", number: "INV-2024-002", customer: "Globex Inc", email: "finance@globex.com", date: "Yesterday" },
-                                    { amount: "£2,400.00", number: "INV-2023-089", customer: "Soylent Corp", email: "ap@soylent.com", date: "Oct 24" },
-                                    { amount: "£450.00", number: "INV-2024-003", customer: "Initech", email: "peter@initech.com", date: "Oct 22" },
-                                    { amount: "£9,800.00", number: "INV-2023-088", customer: "Umbrella Corp", email: "wesker@umbrella.com", date: "Oct 20" },
-                                ].map((invoice, i) => (
-                                    <div key={i} className="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-neutral-50/50 transition-colors group cursor-default dark:hover:bg-neutral-800/50">
-                                        <div className="col-span-2 font-medium text-neutral-900 flex items-center gap-2 dark:text-neutral-200">
-                                            {invoice.amount}
-
-                                        </div>
-                                        <div className="col-span-3 text-sm text-neutral-500 font-mono dark:text-neutral-500">{invoice.number}</div>
-                                        <div className="col-span-4">
-                                            <div className="text-sm font-medium text-neutral-900 dark:text-neutral-200">{invoice.customer}</div>
-                                            <div className="text-xs text-neutral-400 dark:text-neutral-500">{invoice.email}</div>
-                                        </div>
-                                        <div className="col-span-3 text-right text-sm text-neutral-500 dark:text-neutral-500">{invoice.date}</div>
+                            {/* Table Container with Scroll */}
+                            <div className="overflow-x-auto">
+                                <div className="min-w-[600px]">
+                                    {/* Table Header */}
+                                    <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-neutral-50/50 text-xs font-medium text-neutral-500 border-b border-neutral-100 uppercase tracking-wider dark:bg-neutral-800/30 dark:border-neutral-800 dark:text-neutral-400">
+                                        <div className="col-span-2">Amount</div>
+                                        <div className="col-span-3">Invoice Number</div>
+                                        <div className="col-span-4">Customer</div>
+                                        <div className="col-span-3 text-right">Date</div>
                                     </div>
-                                ))}
+
+                                    {/* Table Rows */}
+                                    <div className="divide-y divide-neutral-50 bg-white dark:bg-neutral-900 dark:divide-neutral-800">
+                                        {[
+                                            { amount: "£1,200.00", number: "INV-2024-001", customer: "Acme Corp", email: "billing@acme.com", date: "Today" },
+                                            { amount: "£850.00", number: "INV-2024-002", customer: "Globex Inc", email: "finance@globex.com", date: "Yesterday" },
+                                            { amount: "£2,400.00", number: "INV-2023-089", customer: "Soylent Corp", email: "ap@soylent.com", date: "Oct 24" },
+                                            { amount: "£450.00", number: "INV-2024-003", customer: "Initech", email: "peter@initech.com", date: "Oct 22" },
+                                            { amount: "£9,800.00", number: "INV-2023-088", customer: "Umbrella Corp", email: "wesker@umbrella.com", date: "Oct 20" },
+                                        ].map((invoice, i) => (
+                                            <div key={i} className="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-neutral-50/50 transition-colors group cursor-default dark:hover:bg-neutral-800/50">
+                                                <div className="col-span-2 font-medium text-neutral-900 flex items-center gap-2 dark:text-neutral-200">
+                                                    {invoice.amount}
+                                                </div>
+                                                <div className="col-span-3 text-sm text-neutral-500 font-mono dark:text-neutral-500">{invoice.number}</div>
+                                                <div className="col-span-4">
+                                                    <div className="text-sm font-medium text-neutral-900 dark:text-neutral-200">{invoice.customer}</div>
+                                                    <div className="text-xs text-neutral-400 dark:text-neutral-500">{invoice.email}</div>
+                                                </div>
+                                                <div className="col-span-3 text-right text-sm text-neutral-500 dark:text-neutral-500">{invoice.date}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

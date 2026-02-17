@@ -68,22 +68,22 @@ export function Comparison() {
                 <Tabs defaultValue="operations" className="w-full" onValueChange={setActiveTab}>
                     <FadeIn delay={0.1}>
                         <div className="flex justify-center mb-12">
-                            <TabsList className="bg-white border border-neutral-200 p-1 rounded-full h-auto shadow-sm dark:bg-neutral-950 dark:border-neutral-800">
+                            <TabsList className="bg-white border border-neutral-200 p-1 rounded-full h-auto shadow-sm flex-wrap justify-center dark:bg-neutral-950 dark:border-neutral-800">
                                 <TabsTrigger
                                     value="operations"
-                                    className="rounded-full px-6 py-3 text-sm font-medium data-[state=active]:bg-neutral-900 data-[state=active]:text-white transition-all dark:data-[state=active]:bg-white dark:data-[state=active]:text-neutral-950"
+                                    className="rounded-full px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium data-[state=active]:bg-neutral-900 data-[state=active]:text-white transition-all dark:data-[state=active]:bg-white dark:data-[state=active]:text-neutral-950"
                                 >
                                     Operations
                                 </TabsTrigger>
                                 <TabsTrigger
                                     value="analytics"
-                                    className="rounded-full px-6 py-3 text-sm font-medium data-[state=active]:bg-neutral-900 data-[state=active]:text-white transition-all dark:data-[state=active]:bg-white dark:data-[state=active]:text-neutral-950"
+                                    className="rounded-full px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium data-[state=active]:bg-neutral-900 data-[state=active]:text-white transition-all dark:data-[state=active]:bg-white dark:data-[state=active]:text-neutral-950"
                                 >
                                     Analytics
                                 </TabsTrigger>
                                 <TabsTrigger
                                     value="ai"
-                                    className="rounded-full px-6 py-3 text-sm font-medium data-[state=active]:bg-neutral-900 data-[state=active]:text-white transition-all dark:data-[state=active]:bg-white dark:data-[state=active]:text-neutral-950"
+                                    className="rounded-full px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium data-[state=active]:bg-neutral-900 data-[state=active]:text-white transition-all dark:data-[state=active]:bg-white dark:data-[state=active]:text-neutral-950"
                                 >
                                     AI Assistant
                                 </TabsTrigger>
@@ -133,27 +133,31 @@ export function Comparison() {
                                     transition={{ duration: 0.3 }}
                                     className="rounded-2xl border border-neutral-200 bg-white shadow-xl overflow-hidden dark:bg-neutral-950 dark:border-neutral-800 dark:shadow-none"
                                 >
-                                    <div className="grid grid-cols-3 bg-neutral-50/50 border-b border-neutral-100 p-4 dark:bg-neutral-900/50 dark:border-neutral-800">
-                                        <div className="text-xs font-semibold text-neutral-900 uppercase tracking-wider dark:text-white">Feature</div>
-                                        <div className="text-xs font-semibold text-neutral-500 uppercase tracking-wider dark:text-neutral-500">Traditional</div>
-                                        <div className="text-xs font-semibold text-blue-600 uppercase tracking-wider dark:text-blue-400">FinVio</div>
-                                    </div>
-
-                                    <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
-                                        {comparisonData[activeTab as keyof typeof comparisonData].map((row, i) => (
-                                            <div key={i} className="grid grid-cols-3 p-4 items-center hover:bg-neutral-50 transition-colors dark:hover:bg-neutral-900/50">
-                                                <div className="font-medium text-sm text-neutral-900 pr-2 dark:text-neutral-200">{row.step}</div>
-                                                <div className="text-sm text-neutral-500 flex items-center gap-2 pr-2 dark:text-neutral-500">
-                                                    {row.manual}
-                                                </div>
-                                                <div className="text-sm font-medium text-blue-600 flex items-center gap-2 dark:text-blue-400">
-                                                    <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 dark:bg-emerald-900/20">
-                                                        <Check size={12} className="text-emerald-600 dark:text-emerald-400" strokeWidth={3} />
-                                                    </div>
-                                                    {row.auto}
-                                                </div>
+                                    <div className="overflow-x-auto">
+                                        <div className="min-w-[400px]">
+                                            <div className="grid grid-cols-3 bg-neutral-50/50 border-b border-neutral-100 p-4 dark:bg-neutral-900/50 dark:border-neutral-800">
+                                                <div className="text-xs font-semibold text-neutral-900 uppercase tracking-wider dark:text-white">Feature</div>
+                                                <div className="text-xs font-semibold text-neutral-500 uppercase tracking-wider dark:text-neutral-500">Traditional</div>
+                                                <div className="text-xs font-semibold text-blue-600 uppercase tracking-wider dark:text-blue-400">FinVio</div>
                                             </div>
-                                        ))}
+
+                                            <div className="divide-y divide-neutral-100 dark:divide-neutral-800">
+                                                {comparisonData[activeTab as keyof typeof comparisonData].map((row, i) => (
+                                                    <div key={i} className="grid grid-cols-3 p-4 items-center hover:bg-neutral-50 transition-colors dark:hover:bg-neutral-900/50">
+                                                        <div className="font-medium text-sm text-neutral-900 pr-2 dark:text-neutral-200">{row.step}</div>
+                                                        <div className="text-sm text-neutral-500 flex items-center gap-2 pr-2 dark:text-neutral-500">
+                                                            {row.manual}
+                                                        </div>
+                                                        <div className="text-sm font-medium text-blue-600 flex items-center gap-2 dark:text-blue-400">
+                                                            <div className="h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 dark:bg-emerald-900/20">
+                                                                <Check size={12} className="text-emerald-600 dark:text-emerald-400" strokeWidth={3} />
+                                                            </div>
+                                                            {row.auto}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
                                     </div>
                                 </motion.div>
                             </AnimatePresence>
