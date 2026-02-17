@@ -9,7 +9,7 @@ import { prisma } from "@/app/utils/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { ClientList } from "./client-list";
-import { Invoice } from "@/lib/generated/prisma";
+import { Invoice } from "@prisma/client";
 
 export default async function ClientsPage() {
     const { userId } = await auth();
