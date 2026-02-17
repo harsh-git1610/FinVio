@@ -28,7 +28,7 @@ export function Hero() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.1 }}
-                            className="text-5xl font-bold tracking-tight text-neutral-900 sm:text-7xl lg:text-8xl dark:text-white max-w-4xl mx-auto"
+                            className="text-4xl md:text-5xl font-bold tracking-tight text-neutral-900 sm:text-7xl lg:text-8xl dark:text-white max-w-4xl mx-auto"
                         >
                             <span className="text-neutral-500 dark:text-neutral-500">Look professional.</span>
                             <br />

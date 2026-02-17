@@ -29,12 +29,12 @@ export function Footer() {
                             <span>Site by</span>
                             <span className="font-bold"><Link href="https://drive.google.com/file/d/1jCPr4VXvhgeBh4iViCBWzbAPnb_nZf_t/view?usp=sharing">Harsh</Link></span>
                         </div>
-                        
+
                     </div>
 
                     {/* MASSIVE TYPOGRAPHY */}
                     <div className="w-full flex justify-center items-end border-t border-neutral-200 dark:border-neutral-800 mt-12 pt-4">
-                        <h1 className="text-[30vw] leading-[0.7] font-bold tracking-tighter text-neutral-950 dark:text-white transition-colors duration-300 select-none -mb-[4vw]">
+                        <h1 className="text-[18vw] md:text-[25vw] lg:text-[30vw] leading-[0.8] font-bold tracking-tighter text-neutral-950 dark:text-white transition-colors duration-300 select-none -mb-[2vw]">
                             FINVIO
                         </h1>
                     </div>
