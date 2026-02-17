@@ -1,6 +1,6 @@
 import InvoiceActions from "./invoiceActions";
 import { Table, TableCell, TableHead, TableHeader, TableRow, TableBody } from "./ui/table";
-import { Invoice } from "@/lib/generated/prisma";
+import { Invoice } from "@prisma/client";
 import { Badge } from "./ui/badge";
 
 export default function InvoiceList({ invoices = [] }: { invoices: Invoice[] }) {

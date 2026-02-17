@@ -1,4 +1,4 @@
-import { Invoice } from "@/lib/generated/prisma"
+import { Invoice } from "@prisma/client"
 
 export function getInvoiceTemplate(invoice: Invoice) {
   if (invoice.template === "modern") {

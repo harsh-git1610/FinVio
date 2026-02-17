@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer"
 import { getInvoiceTemplate } from "../templates/templates"
-import { Invoice } from "@/lib/generated/prisma"
+import { Invoice } from "@prisma/client"
 
 export async function generateInvoicePdf(invoice: Invoice) {
   const browser = await puppeteer.launch()
