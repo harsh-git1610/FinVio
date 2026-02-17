@@ -13,7 +13,7 @@ import { Revenue } from "@/components/landing/revenue";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white text-neutral-900 selection:bg-blue-100 selection:text-blue-900">
+    <main className="min-h-screen bg-white text-neutral-900 selection:bg-blue-100 selection:text-blue-900 dark:bg-neutral-950 dark:text-neutral-50 dark:selection:bg-blue-900 dark:selection:text-blue-100">
       <Navbar />
       <Hero />
       <Trust />

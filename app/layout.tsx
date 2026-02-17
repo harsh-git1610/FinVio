@@ -17,8 +17,29 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "FinVio",
-  description: "FinVio - Professional Invoice Generation",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://invoice-gen-nu.vercel.app"),
+  title: {
+    default: "FinVio - AI Invoice Generator",
+    template: "%s | FinVio",
+  },
+  description: "Professional invoice generator for freelancers and small businesses. Create, track, and manage invoices with AI assistance.",
+  keywords: ["invoice generator", "freelance invoicing", "ai finance", "small business tools"],
+  authors: [{ name: "Harsh" }],
+  creator: "Harsh",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "/",
+    title: "FinVio - AI Invoice Generator",
+    description: "Professional invoice generator for freelancers and small businesses.",
+    siteName: "FinVio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FinVio - AI Invoice Generator",
+    description: "Professional invoice generator for freelancers and small businesses.",
+    creator: "@harsh",
+  },
   icons: {
     icon: "/logo.png",
     shortcut: "/logo.png",
