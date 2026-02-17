@@ -20,7 +20,9 @@ export const metadata: Metadata = {
   title: "FinVio",
   description: "FinVio - Professional Invoice Generation",
   icons: {
-    icon: "favicon.ico",
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 }
 
