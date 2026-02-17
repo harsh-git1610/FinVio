@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Invoice } from "@/lib/generated/prisma";
+import { Invoice } from "@prisma/client";
 import InvoiceList from "@/components/invoiceList";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Users } from "lucide-react";
