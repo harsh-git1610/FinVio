@@ -27,7 +27,7 @@ export function Footer() {
                     <div className="absolute right-0 top-0 sm:-top-10 flex items-center gap-2 text-neutral-900 dark:text-white z-10">
                         <div className="flex items-center gap-1.5 text-xs sm:text-sm font-medium opacity-80 decoration-neutral-500">
                             <span>Site by</span>
-                            <span className="font-bold"><Link href="">Harsh</Link></span>
+                            <span className="font-bold"><Link href="https://drive.google.com/file/d/1jCPr4VXvhgeBh4iViCBWzbAPnb_nZf_t/view?usp=sharing">Harsh</Link></span>
                         </div>
                         
                     </div>

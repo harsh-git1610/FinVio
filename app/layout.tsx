@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/components/theme-provider"
+import Image from "next/image"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,6 +19,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "FinVio",
   description: "FinVio - Professional Invoice Generation",
+  icons: {
+    icon: "favicon.ico",
+  },
 }
 
 export default function RootLayout({
