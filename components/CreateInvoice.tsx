@@ -71,6 +71,9 @@ export default function CreateInvoice({
     const [taxName, setTaxName] = useState(invoice?.taxName ?? "Tax");
     const [discount, setDiscount] = useState(invoice?.discount ?? 0);
 
+    const [template, setTemplate] = useState(invoice?.template ?? "clean");
+    const [color, setColor] = useState(invoice?.color ?? "#000000");
+
     // Form validation with Conform
     const [lastResult, action] = useActionState(invoice ? editInvoice.bind(null, invoice.id) : createInvoice, undefined);
     const [form, fields] = useForm({
@@ -141,6 +144,8 @@ export default function CreateInvoice({
             <input type="hidden" name="taxRate" value={taxRate} />
             <input type="hidden" name="discount" value={discount} />
             <input type="hidden" name="notes" value={notes} />
+            <input type="hidden" name="template" value={template} />
+            <input type="hidden" name="color" value={color} />
             <div className="max-w-5xl mx-auto py-10 px-4">
                 <div className="flex justify-between items-center mb-8">
                     <div>
@@ -520,6 +525,80 @@ export default function CreateInvoice({
                                                                     GST {rate}%
                                                                 </Badge>
                                                             ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+
+                                    {/* Design & Customization */}
+                                    <AccordionItem value="design-customization" className="border-b px-6">
+                                        <AccordionTrigger className="hover:no-underline py-6">
+                                            <span className="text-lg font-semibold">Design & Customization</span>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pb-6 pt-2">
+                                            <div className="space-y-6">
+                                                <div className="space-y-3">
+                                                    <Label className="text-muted-foreground uppercase text-xs tracking-wider">Template</Label>
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div
+                                                            className={cn(
+                                                                "cursor-pointer rounded-lg border-2 p-4 hover:border-primary transition-all",
+                                                                template === "clean" ? "border-primary bg-primary/5" : "border-border"
+                                                            )}
+                                                            onClick={() => setTemplate("clean")}
+                                                        >
+                                                            <div className="space-y-2">
+                                                                <div className="h-20 w-full bg-neutral-100 dark:bg-neutral-800 rounded-md flex flex-col p-2 gap-1">
+                                                                    <div className="h-2 w-1/3 bg-neutral-300 dark:bg-neutral-600 rounded-sm" />
+                                                                    <div className="h-2 w-1/4 bg-neutral-200 dark:bg-neutral-700 rounded-sm" />
+                                                                </div>
+                                                                <p className="font-medium text-sm text-center">Clean</p>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            className={cn(
+                                                                "cursor-pointer rounded-lg border-2 p-4 hover:border-primary transition-all",
+                                                                template === "modern" ? "border-primary bg-primary/5" : "border-border"
+                                                            )}
+                                                            onClick={() => setTemplate("modern")}
+                                                        >
+                                                            <div className="space-y-2">
+                                                                <div className="h-20 w-full bg-neutral-100 dark:bg-neutral-800 rounded-md flex flex-col overflow-hidden relative">
+                                                                    <div className="absolute top-0 left-0 w-full h-2" style={{ backgroundColor: color }} />
+                                                                    <div className="p-2 gap-1 flex flex-col mt-2">
+                                                                        <div className="h-2 w-1/3 bg-neutral-300 dark:bg-neutral-600 rounded-sm" />
+                                                                        <div className="h-2 w-1/4 bg-neutral-200 dark:bg-neutral-700 rounded-sm" />
+                                                                    </div>
+                                                                </div>
+                                                                <p className="font-medium text-sm text-center">Modern</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="space-y-3">
+                                                    <Label className="text-muted-foreground uppercase text-xs tracking-wider">Accent Color</Label>
+                                                    <div className="flex flex-wrap gap-3">
+                                                        {["#000000", "#2563eb", "#dc2626", "#16a34a", "#9333ea", "#ea580c"].map((c) => (
+                                                            <div
+                                                                key={c}
+                                                                className={cn(
+                                                                    "h-8 w-8 rounded-full cursor-pointer ring-offset-2 ring-offset-background transition-all",
+                                                                    color === c ? "ring-2 ring-primary scale-110" : "hover:scale-105"
+                                                                )}
+                                                                style={{ backgroundColor: c }}
+                                                                onClick={() => setColor(c)}
+                                                            />
+                                                        ))}
+                                                        <div className="relative">
+                                                            <Input
+                                                                type="color"
+                                                                value={color}
+                                                                onChange={(e) => setColor(e.target.value)}
+                                                                className="h-8 w-8 p-0 border-none rounded-full overflow-hidden cursor-pointer"
+                                                            />
                                                         </div>
                                                     </div>
                                                 </div>

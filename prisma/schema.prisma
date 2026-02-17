@@ -67,6 +67,9 @@ model Invoice {
   discount      Float    @default(0)
   notes         String?
 
+  template      String   @default("clean")
+  color         String   @default("#000000")
+
   status        InvoiceStatus @default(PENDING)
 
   createdAt     DateTime @default(now())

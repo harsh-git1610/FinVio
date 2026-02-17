@@ -107,6 +107,9 @@ export const createInvoiceSchema = z.object({
     // Asset References (Base64)
     companyLogo: optionalString,
     signature: optionalString,
+
+    template: z.string().optional(),
+    color: z.string().optional(),
 });
 
 export type InvoiceItem = z.infer<typeof invoiceItemSchema>;
@@ -142,6 +145,8 @@ export const draftInvoiceSchema = z.object({
     userId: z.string().optional(),
     companyLogo: optionalString,
     signature: optionalString,
+    template: z.string().optional(),
+    color: z.string().optional(),
 });
 
 export const updateProfileSchema = z.object({

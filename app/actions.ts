@@ -76,6 +76,8 @@ export async function createInvoice(prevState: unknown, formData: FormData) {
             userId: user.id,
             companyLogo: data.companyLogo ?? "",
             signature: data.signature ?? "",
+            template: data.template ?? "clean",
+            color: data.color ?? "#000000",
             status: (isDraft ? "DRAFT" : "PENDING") as any,
         },
     });
@@ -155,6 +157,8 @@ export async function editInvoice(invoiceId: string, prevState: unknown, formDat
             notes: data.notes ?? "",
             companyLogo: data.companyLogo ?? "",
             signature: data.signature ?? "",
+            template: data.template ?? "clean",
+            color: data.color ?? "#000000",
             status: (isDraft ? "DRAFT" : "PENDING") as any,
         },
     });
