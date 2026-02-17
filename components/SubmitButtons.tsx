@@ -2,21 +2,22 @@
 
 import { useFormStatus } from "react-dom"
 import { Button } from "./ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2, type LucideIcon } from "lucide-react";
+import { type ComponentProps } from "react";
 
-interface SubmitButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface SubmitButtonProps extends ComponentProps<typeof Button> {
     text?: string;
-    children?: React.ReactNode;
+    icon?: LucideIcon;
 }
 
-export function SubmitButton({ text, children, className, ...props }: SubmitButtonProps) {
+export function SubmitButton({ text, icon: Icon, children, className, ...props }: SubmitButtonProps) {
     const { pending } = useFormStatus();
-    
+
     const content = text || children;
-    
+
     return (
-        <Button 
-            type="submit" 
+        <Button
+            type="submit"
             className={`w-full ${className || ''}`}
             disabled={pending}
             {...props}
@@ -27,7 +28,10 @@ export function SubmitButton({ text, children, className, ...props }: SubmitButt
                     Please wait...
                 </>
             ) : (
-                content
+                <>
+                    {Icon && <Icon className="mr-2 h-4 w-4" />}
+                    {content}
+                </>
             )}
         </Button>
     );

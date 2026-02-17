@@ -369,6 +369,11 @@ function Sidebar({ userData, ...props }: AppSidebarProps) {
   const pathname = usePathname()
   const initials = `${userData.firstName.charAt(0)}${userData.lastName.charAt(0)}`.toUpperCase()
 
+  // Hide sidebar on the invoice creation page to allow full screen split view
+  if (pathname === "/dashboard/invoices/create" || pathname.startsWith("/dashboard/invoices/create/")) {
+    return null;
+  }
+
   return (
     <SidebarPrimitive collapsible="icon" {...props}>
       <SidebarHeader>

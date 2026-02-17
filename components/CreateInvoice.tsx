@@ -9,7 +9,8 @@ import { Textarea } from "./ui/textarea";
 import { Calendar } from "./ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
-import { CalendarIcon, Plus, Trash2, Send, Save, AlertCircle } from "lucide-react";
+import { CalendarIcon, Plus, Trash2, Send, Save, AlertCircle, Download } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -28,6 +29,10 @@ import {
 } from "./ui/accordion";
 import { FileUpload } from "./ui/file-upload";
 import { AssetPicker } from "./AssetPicker";
+import dynamic from "next/dynamic";
+import { SubmitButton } from "./SubmitButtons";
+
+const LivePreview = dynamic(() => import("./LivePreview"), { ssr: false });
 
 interface CreateInvoiceProps {
     firstName?: string;
@@ -46,6 +51,7 @@ export default function CreateInvoice({
     businessName,
     invoice
 }: CreateInvoiceProps) {
+    const router = useRouter();
     const [invoiceNumber, setInvoiceNumber] = useState(invoice?.invoiceNumber ?? "INV-001");
     const [date, setDate] = useState<Date | undefined>(invoice?.date ? new Date(invoice.date) : new Date());
     const [dueDate, setDueDate] = useState<Date | undefined>(invoice?.dueDate ? new Date(invoice.dueDate) : undefined);
@@ -88,16 +94,25 @@ export default function CreateInvoice({
     useEffect(() => {
         if (!lastResult) return;
 
-        if (lastResult.status === "success") {
+        if (lastResult.status === "success" && (lastResult as any).invoiceId) {
+            const invoiceId = (lastResult as any).invoiceId;
             toast.success("Invoice Saved", {
-                description: "Your invoice has been successfully saved."
+                description: "Redirecting to download..."
             });
+
+            // Trigger download after a short delay
+            const timer = setTimeout(() => {
+                window.open(`/api/invoices/${invoiceId}/pdf`, '_blank');
+                router.push("/dashboard/invoices");
+            }, 500);
+
+            return () => clearTimeout(timer);
         } else if (lastResult.status === "error") {
             toast.error("Error Saving Invoice", {
                 description: "Please check the form for errors and try again."
             });
         }
-    }, [lastResult]);
+    }, [lastResult, router]);
 
     const addItem = () => {
         setItems([
@@ -146,28 +161,24 @@ export default function CreateInvoice({
             <input type="hidden" name="notes" value={notes} />
             <input type="hidden" name="template" value={template} />
             <input type="hidden" name="color" value={color} />
-            <div className="max-w-5xl mx-auto py-10 px-4">
-                <div className="flex justify-between items-center mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight">
-                            {invoice ? "Edit Invoice" : "Create Invoice"}
-                        </h1>
-                        <p className="text-muted-foreground mt-1">
-                            {invoice ? "Update your existing invoice." : "Draft a new invoice for your client."}
-                        </p>
-                    </div>
-                    <div className="flex gap-3">
-                        <Button type="submit" name="action" value="save-draft" variant="outline">
-                            <Save className="w-4 h-4 mr-2" />
-                            Save Draft
-                        </Button>
-                        <Button type="submit" name="action" value="create-invoice">
-                            <Send className="w-4 h-4 mr-2" />
-                            {invoice ? "Update Invoice" : "Create Invoice"}
-                        </Button>
+            <input type="hidden" name="currency" value={currency} />
+
+            {/* Custom Header with Buttons on Right */}
+            <div className="flex items-center justify-between py-4 px-6 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+                <div className="flex items-center gap-4">
+                    <p className="text-sm text-muted-foreground">
+                        {invoice ? "Editing Invoice" : "New Invoice"}
+                    </p>
+                </div>
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2">
+                        <SubmitButton text="Save Draft" variant="outline" size="sm" name="action" value="save-draft" icon={Save} className="w-auto" />
+                        <SubmitButton text="Download Invoice" size="sm" name="action" value="create-invoice" icon={Download} className="w-auto" />
                     </div>
                 </div>
+            </div>
 
+            <div className="w-full max-w-[1920px] mx-auto py-6 px-4">
                 {lastResult?.status === "error" && lastResult?.error && (
                     <Alert variant="destructive" className="mb-6">
                         <AlertCircle className="h-4 w-4" />
@@ -182,9 +193,9 @@ export default function CreateInvoice({
                     </Alert>
                 )}
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
                     {/* Main Invoice Form */}
-                    <div className="lg:col-span-2 space-y-6">
+                    <div className="space-y-6 lg:h-[calc(100vh-180px)] lg:overflow-y-auto lg:pr-4 scrollbar-hide">
                         <Card className="border-none shadow-lg bg-card/50 backdrop-blur-sm ring-1 ring-border/50">
                             <CardContent className="p-0">
                                 <Accordion type="single" collapsible defaultValue="invoice-details" className="w-full">
@@ -630,69 +641,33 @@ export default function CreateInvoice({
                         </Card>
                     </div>
 
-                    {/* Sidebar / Summary */}
-                    <div className="space-y-6">
-                        <Card className="border-none shadow-lg bg-card/50 backdrop-blur-sm ring-1 ring-border/50 sticky top-6">
-                            <CardContent className="p-6 space-y-6">
-                                <h3 className="font-semibold text-lg">Summary</h3>
-                                <div className="space-y-3">
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-muted-foreground">Subtotal</span>
-                                        <span>{currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : ""}{subtotal.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-sm">
-                                        <span className="text-muted-foreground">Discount ({discount}%)</span>
-                                        <span>-{currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : ""}{discountAmount.toFixed(2)}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center text-sm">
-                                        <span className="text-muted-foreground">{taxName} ({taxRate}%)</span>
-                                        <span>{currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : ""}{tax.toFixed(2)}</span>
-                                    </div>
-                                    <div className="h-px bg-border" />
-                                    <div className="flex justify-between font-bold text-lg">
-                                        <span>Total</span>
-                                        <span>{currency === "USD" ? "$" : currency === "EUR" ? "€" : currency === "INR" ? "₹" : ""}{total.toFixed(2)}</span>
-                                    </div>
-                                </div>
-
-                                <div className="pt-4 space-y-4">
-                                    <div className="space-y-2">
-                                        <Label>Currency</Label>
-                                        <input type="hidden" name="currency" value={currency} />
-                                        <div className="flex gap-2">
-                                            <Badge
-                                                variant={currency === "USD" ? "secondary" : "outline"}
-                                                className="cursor-pointer hover:bg-muted"
-                                                onClick={() => setCurrency("USD")}
-                                            >
-                                                USD ($)
-                                            </Badge>
-                                            <Badge
-                                                variant={currency === "EUR" ? "secondary" : "outline"}
-                                                className="cursor-pointer hover:bg-muted"
-                                                onClick={() => setCurrency("EUR")}
-                                            >
-                                                EUR (€)
-                                            </Badge>
-                                            {/* <Badge
-                                                variant={currency === "GBP" ? "secondary" : "outline"}
-                                                className="cursor-pointer hover:bg-muted"
-                                                onClick={() => setCurrency("GBP")}
-                                            >
-                                                GBP (£)
-                                            </Badge> */}
-                                            <Badge
-                                                variant={currency === "INR" ? "secondary" : "outline"}
-                                                className="cursor-pointer hover:bg-muted"
-                                                onClick={() => setCurrency("INR")}
-                                            >
-                                                INR (₹)
-                                            </Badge>
-                                        </div>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
+                    {/* Right Column: Live Preview & Summary */}
+                    <div className="hidden lg:flex flex-col gap-6 h-[calc(100vh-100px)] sticky top-6">
+                        <div className="flex-1 min-h-0 border rounded-lg overflow-hidden shadow-sm bg-muted/20">
+                            <LivePreview
+                                data={{
+                                    invoiceNumber,
+                                    date,
+                                    dueDate,
+                                    fromName,
+                                    fromEmail,
+                                    fromAddress,
+                                    toName,
+                                    toEmail,
+                                    toAddress,
+                                    currency,
+                                    items,
+                                    taxRate,
+                                    taxName,
+                                    discount,
+                                    notes,
+                                    companyLogo,
+                                    signature,
+                                }}
+                                template={template}
+                                color={color}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

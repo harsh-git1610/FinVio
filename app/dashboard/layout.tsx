@@ -5,6 +5,7 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "@/components/animate-ui/components/radix/sidebar"
+import { DashboardHeader } from "@/components/DashboardHeader";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { prisma } from "../utils/db";
@@ -84,13 +85,7 @@ export default async function DashboardLayout({
         <SidebarProvider>
             <Sidebar userData={userData} />
             <SidebarInset>
-                <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b bg-background transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 border-neutral-200 dark:border-neutral-800">
-                    <div className="flex items-center gap-2 px-4">
-                        <SidebarTrigger className="-ml-1" />
-                        <Separator orientation="vertical" className="mr-2 h-4" />
-                        {/* We can add breadcrumbs here later if needed */}
-                    </div>
-                </header>
+                <DashboardHeader />
                 <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
                     <main className="flex-1 overflow-y-auto p-2 scrollbar-thin">
                         {children}

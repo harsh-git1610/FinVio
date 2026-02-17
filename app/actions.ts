@@ -55,7 +55,7 @@ export async function createInvoice(prevState: unknown, formData: FormData) {
     const discountAmount = (data.discount ?? 0);
     const total = subtotal + taxAmount - discountAmount;
 
-    await prisma.invoice.create({
+    const invoice = await prisma.invoice.create({
         data: {
             invoiceNumber: data.invoiceNumber,
             date: data.date,
@@ -82,7 +82,7 @@ export async function createInvoice(prevState: unknown, formData: FormData) {
         },
     });
 
-    return redirect("/dashboard/invoices");
+    return { status: "success" as const, invoiceId: invoice.id };
 }
 
 export async function editInvoice(invoiceId: string, prevState: unknown, formData: FormData) {
@@ -133,7 +133,7 @@ export async function editInvoice(invoiceId: string, prevState: unknown, formDat
     const discountAmount = (data.discount ?? 0);
     const total = subtotal + taxAmount - discountAmount;
 
-    await prisma.invoice.update({
+    const invoice = await prisma.invoice.update({
         where: {
             id: invoiceId,
             userId: user.id
@@ -163,7 +163,7 @@ export async function editInvoice(invoiceId: string, prevState: unknown, formDat
         },
     });
 
-    return redirect("/dashboard/invoices");
+    return { status: "success" as const, invoiceId: invoice.id };
 }
 
 export async function deleteInvoice(invoiceId: string) {
