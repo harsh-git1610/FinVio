@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "studio": "dotenv -e .env -- prisma studio"
+    "studio": "dotenv -e .env -- prisma studio" , 
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
