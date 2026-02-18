@@ -16,13 +16,23 @@ export default function Home() {
     <main className="min-h-screen bg-white text-neutral-900 selection:bg-blue-100 selection:text-blue-900 dark:bg-neutral-950 dark:text-neutral-50 dark:selection:bg-blue-900 dark:selection:text-blue-100">
       <Navbar />
       <Hero />
-      <Trust />
-      <Operations />
-      <ValueProposition />
+      <div id="trust">
+        <Trust />
+      </div>
+      <div id="how-it-works">
+        <Operations />
+      </div>
+      <div id="value">
+        <ValueProposition />
+      </div>
       <Comparison />
 
-      <Revenue />
-      <Features />
+      <div id="revenue">
+        <Revenue />
+      </div>
+      <div id="features">
+        <Features />
+      </div>
 
 
       <CTA />
